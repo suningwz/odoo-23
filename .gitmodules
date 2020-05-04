@@ -1,0 +1,4 @@
+[submodule "partner-contact"]
+	path = partner-contact
+	url = https://github.com/OCA/partner-contact
+	branch = 13.0
