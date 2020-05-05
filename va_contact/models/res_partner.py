@@ -32,4 +32,4 @@ class ResPartner(models.Model):
     def _compute_display_name(self):
         super(ResPartner,self)._compute_display_name()
         for partner in self.filtered(lambda p: p.is_company and p.social_reason_id):
-            partner.display_name = "{} {}".format(partner.name,partner.with_context(lang=partner.lang.code).social_reason_id.name)
+            partner.display_name = "{} {}".format(partner.name,partner.with_context(lang=partner.lang).social_reason_id.name)
