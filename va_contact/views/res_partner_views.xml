@@ -1,5 +1,18 @@
 <odoo>
   <data>
+
+    <!-- Modification of Partner - Adding Social Reason -->
+    <record model="ir.ui.view" id="view_partner_form">
+        <field name="name">res.partner.form.v_a</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <label name='address_name' position="after">
+              <field name="social_reason_id" attrs="{'invisible':[('company_type','=','person'),'required':[('company_type','=','company')]}"/>
+            </label>
+        </field>
+    </record>
+    
     <!-- explicit list view definition -->
 <!--
     <record model="ir.ui.view" id="va_contact.list">

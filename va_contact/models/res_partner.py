@@ -1,13 +1,23 @@
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 _logger = logging.getLogger(__name__)
 
+class SocialReason(models.Model):
+    _name = 'res.partner.social.reason'
+    _description = 'Company Social Reason'
+
+    name = fields.Char(translate=True)
+    active = fields.Boolean(default=True)
 
 class ResPartner(models.Model):
 
     _inherit = "res.partner"
+
+    social_reason_id = fields.Many2one(
+        comodel_name='res.partner.social.reason'
+    )
 
     @api.onchange('lastname')
     def _onchange_lastname(self):
