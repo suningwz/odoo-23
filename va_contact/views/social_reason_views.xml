@@ -20,6 +20,7 @@
 
     <menuitem
         id="social_reason_menu"
+        name="Social Reason"
         action="social_reason_action"
         parent="contacts.res_partner_menu_config"
         sequence="4"

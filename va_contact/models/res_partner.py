@@ -26,3 +26,10 @@ class ResPartner(models.Model):
             self.lastname = self.lastname.upper()
         else:
             self.lastname = self.lastname
+    
+    #just to trigger comptation based on social_reason_id
+    @api.depends('is_company', 'name', 'parent_id.name', 'type', 'company_name','social_reason_id')
+    def _compute_display_name(self):
+        super(ResPartner,self)._compute_display_name()
+        for partner in self.filtered(lambda p: p.is_company and p.social_reason_id):
+            partner.display_name = "{} {}".format(partner.name,partner.social_reason)
