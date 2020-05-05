@@ -28,7 +28,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/res_partner_views.xml',
-        'views/social_reson_views.xml',
+        'views/social_reason_views.xml',
     ],
 
 }
