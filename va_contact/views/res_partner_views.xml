@@ -8,10 +8,13 @@
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <label name='address_name' position="after">
-              <field name="social_reason_id" attrs="{'invisible':[('company_type','=','person'),'required':[('company_type','=','company')]}"/>
+              <field name='social_reason_id' attrs="{'invisible':[('company_type','=','person')],'required':[('company_type','=','company')]}"/>
             </label>
         </field>
     </record>
+
+  </data>
+</odoo>
     
     <!-- explicit list view definition -->
 <!--
@@ -69,5 +72,4 @@
     <menuitem name="Server to list" id="va_contact" parent="va_contact.menu_2"
               action="va_contact.action_server"/>
 -->
-  </data>
-</odoo>
+  
