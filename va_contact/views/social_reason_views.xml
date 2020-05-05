@@ -3,7 +3,7 @@
 
     <record model="ir.ui.view" id="social_reason_tree">
       <field name="name">social.reason.tree</field>
-      <field name="model">va_contact.res_partner_social_reason</field>
+      <field name="model">res.partner.social.reason</field>
       <field name="arch" type="xml">
         <tree editable="bottom">
           <field name="name"/>
@@ -14,7 +14,7 @@
 
     <record id="social_reason_action" model="ir.actions.act_window">
         <field name="name">Social Reason</field>
-        <field name="res_model">va_contact.res_partner_social_reason</field>
+        <field name="res_model">res.partner.social.reason</field>
         <field name="view_mode">tree</field>
     </record>
 
