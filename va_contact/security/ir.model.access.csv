@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_va_contact_social_reason_internal,va_contact.social_reason_internal,va_contact.model_res_partner_social_reason,base.group_user,1,0,0,0
 access_va_contact_social_reason_portal,va_contact.social_reason_portal,va_contact.model_res_partner_social_reason,base.group_portal,1,0,0,0
-access_va_contact_social_reason_partner_manager,va_contact.social_reason_partner_manager,va_contact.model_res_partner_social_reason,base.group_portal,1,1,1,1
+access_va_contact_social_reason_partner_manager,va_contact.social_reason_partner_manager,va_contact.model_res_partner_social_reason,base.group_partner_manager,1,1,1,1
