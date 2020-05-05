@@ -16,9 +16,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     social_reason_id = fields.Many2one(
-        string=_('Social Reason'),
         comodel_name='res.partner.social.reason',
-        #translate = True
     )
 
     @api.onchange('lastname')
