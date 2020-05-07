@@ -26,6 +26,10 @@ class ResPartner(models.Model):
             self.lastname = self.lastname.upper()
         else:
             pass
+
+    ### CUSTOM NAMING
+    ### The 3 below methods are designed to automatically add the social reason
+    ### at the end of the comany name, in the language of the partner
     
     @api.onchange('name')
     def _onchange_name(self):
@@ -34,10 +38,24 @@ class ResPartner(models.Model):
             self.name = self.name.split(social_reason)[0] + social_reason
         else:
             pass
-        
-    """#just to trigger comptation based on social_reason_id
-    @api.depends('is_company', 'name', 'parent_id.name', 'type', 'company_name','social_reason_id','lang')
-    def _compute_display_name(self):
-        super(ResPartner,self)._compute_display_name()
-        for partner in self.filtered(lambda p: p.is_company and p.social_reason_id):
-            partner.display_name = "{} {}".format(partner.name,partner.with_context(lang=partner.lang).social_reason_id.name)"""
+    
+    @api.onchange('lang')
+    def _onchange_lang(self):
+        if self.is_company and self.social_reason_id:
+            prev = self._origin
+            prev_social_reason = (" " + self.with_context(lang=prev.lang).social_reason_id.name)
+            social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
+            self.name = self.name.split(prev_social_reason)[0] + social_reason
+        else:
+            pass
+    
+    @api.onchange('social_reason_id')
+    def _onchange_social_reason_id(self):
+        if self.is_company and self.social_reason_id:
+            prev = self._origin
+            prev_social_reason = (" " + prev.with_context(lang=self.lang).social_reason_id.name)
+            social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
+            self.name = self.name.split(prev_social_reason)[0] + social_reason
+        else:
+            pass
+
