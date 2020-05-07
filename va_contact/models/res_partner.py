@@ -25,11 +25,19 @@ class ResPartner(models.Model):
         if self.lastname and not self.is_company:
             self.lastname = self.lastname.upper()
         else:
-            self.lastname = self.lastname
+            pass
     
-    #just to trigger comptation based on social_reason_id
+    @api.onchange('name')
+    def _onchange_name(self):
+        if self.is_company and self.social_reason_id:
+            social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
+            self.name = self.name.split(social_reason)[0] + social_reason
+        else:
+            pass
+        
+    """#just to trigger comptation based on social_reason_id
     @api.depends('is_company', 'name', 'parent_id.name', 'type', 'company_name','social_reason_id','lang')
     def _compute_display_name(self):
         super(ResPartner,self)._compute_display_name()
         for partner in self.filtered(lambda p: p.is_company and p.social_reason_id):
-            partner.display_name = "{} {}".format(partner.name,partner.with_context(lang=partner.lang).social_reason_id.name)
+            partner.display_name = "{} {}".format(partner.name,partner.with_context(lang=partner.lang).social_reason_id.name)"""
