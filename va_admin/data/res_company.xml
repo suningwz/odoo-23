@@ -1,9 +1,10 @@
 <odoo>
   <data noupdate="0">
-
+    <!--
     <record model="res.partner" id="base.main_company" name='va-solutions'>
       <field name="name">VA-SOLUTIONS</field>
     </record>
+    -->
 
     <record model="res.partner" id="architecture_company" name='va-architecture'>
       <field name="name">VA-ARCHITECTURE</field>
