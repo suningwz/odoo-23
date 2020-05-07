@@ -1,20 +1,19 @@
 <odoo>
   <data noupdate="0">
-    <!--
-    <record model="res.partner" id="base.main_company" name='va-solutions'>
+
+    <record model="res.company" id="base.main_company">
       <field name="name">VA-SOLUTIONS</field>
     </record>
-    -->
 
-    <record model="res.partner" id="architecture_company" name='va-architecture'>
+    <record model="res.company" id="architecture_company">
       <field name="name">VA-ARCHITECTURE</field>
     </record>
 
-    <record model="res.partner" id="equipment_company" name='va-equipment'>
+    <record model="res.company" id="equipment_company">
       <field name="name">VA-EQUIPMENT</field>
     </record>
 
-    <record model="res.partner" id="safety_company" name='va-safety'>
+    <record model="res.company" id="safety_company">
       <field name="name">VA-SAFETY</field>
     </record>
     
