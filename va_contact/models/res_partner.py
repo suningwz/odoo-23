@@ -45,6 +45,7 @@ class ResPartner(models.Model):
             prev = self._origin
             prev_social_reason = (" " + self.with_context(lang=prev.lang).social_reason_id.name)
             social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
+            _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
             self.name = self.name.split(prev_social_reason)[0] + social_reason
         else:
             pass
@@ -55,6 +56,7 @@ class ResPartner(models.Model):
             prev = self._origin
             prev_social_reason = (" " + prev.with_context(lang=self.lang).social_reason_id.name)
             social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
+            _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
             self.name = self.name.split(prev_social_reason)[0] + social_reason
         else:
             pass
