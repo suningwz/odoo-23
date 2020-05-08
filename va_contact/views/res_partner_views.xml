@@ -1,13 +1,35 @@
 <odoo>
   <data>
+    <!-- Modification of Search View -->
+    <record model="ir.ui.view" id="view_res_partner_filter">
+        <field name="name">res.partner.filter.v_a</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
 
-    <!-- Modification of Partner - Adding Social Reason -->
+            <!-- We propose company filter -->
+            <filter name='type_company' position="after">
+              <separator/>
+              <filter string='VA-SOLUTION' name='va_solution' domain="[('product_id','=', %(base.main_company)d)]"/>
+              <filter string='VA-ARCHITECTURE' name='va_architecture' domain="[('product_id','=', %(va_admin.architecture_company)d)]"/>
+              <filter string='VA-EQUIPMENT' name='va_equipment' domain="[('product_id','=', %(va_admin.equipment_company)d)]"/>
+              <filter string='VA-SAFETY' name='va_safety' domain="[('product_id','=', %(va_admin.safety_company)d)]"/>
+            </filter>
+
+            <filter name='salesperson' position="before">
+              <filter string='VA-GROUP' name='group_va' context="{'group_by': 'company_id'}"/>
+            </filter>
+            
+        </field>
+    </record>
+
+    <!-- Modification of Partner -->
     <record model="ir.ui.view" id="view_partner_form">
         <field name="name">res.partner.form.v_a</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
-        
+
             <!-- Fields we are suppressing from the origin view -->
             <field name='company_id' position="replace">
             </field>
@@ -18,7 +40,7 @@
             </label>
 
             <field name='vat' position="after">
-              <field name='company_id' required="1"/>
+              <field name='company_id' string="VA-GROUP" required="1"/>
             </field>
             
         </field>

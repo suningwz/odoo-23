@@ -1,0 +1,10 @@
+<odoo>
+  <data>
+
+    <!-- Contacts are shared between companies -->
+    <record model="ir.rule" id="base.res_partner_rule">
+        <field name="active">0</field>
+    </record>
+
+  </data>
+</odoo>
