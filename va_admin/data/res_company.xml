@@ -1,5 +1,5 @@
 <odoo>
-  <data noupdate="0">
+  <data>
 
     <record model="res.company" id="base.main_company">
       <field name="name">VA-SOLUTIONS</field>
