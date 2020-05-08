@@ -53,11 +53,15 @@ class ResPartner(models.Model):
     @api.onchange('social_reason_id')
     def _onchange_social_reason_id(self):
         if self.is_company and self.social_reason_id:
-            prev = self._origin
-            prev_social_reason = (" " + prev.with_context(lang=self.lang).social_reason_id.name)
             social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
-            _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
-            self.name = self.name.split(prev_social_reason)[0] + social_reason
+            prev = self._origin
+            if prev.social_reason_id:
+                prev_social_reason = (" " + prev.with_context(lang=self.lang).social_reason_id.name)
+                self.name = self.name.split(prev_social_reason)[0] + social_reason
+                _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
+            else:
+                self.name = self.name + social_reason
+            
         else:
             pass
 
