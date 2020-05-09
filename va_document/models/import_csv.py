@@ -22,5 +22,5 @@ class Document(models.Model):
                 file_reader = []
                 csv_reader = csv.reader(data, delimiter=',')
                 file_reader.extend(csv_reader)
-                _logger.info("{}".format(decoded_data))
+                _logger.info("{}".format(file_reader))
 
