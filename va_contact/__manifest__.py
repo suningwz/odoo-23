@@ -16,12 +16,14 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Vertical-Access',
-    'version': '0.1.16',
+    'version': '0.1.17',
 
     # any module necessary for this one to work correctly
     'depends': [
         'base',
         'partner_firstname',
+
+        'va_admin',
         ],
 
     # always loaded
