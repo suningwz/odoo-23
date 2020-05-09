@@ -15,6 +15,6 @@ class Document(models.Model):
         if context.get('active_ids'):
             docs = self.browse(context['active_ids'])
             for doc in docs:
-                decoded_data = base64.b64decode(doc.attachment_id)
+                decoded_data = base64.b64decode(doc.attachment_id.datas)
                 _logger.info("{}".format(decoded_data))
 
