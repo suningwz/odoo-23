@@ -21,11 +21,12 @@
     # any module necessary for this one to work correctly
     'depends': [
         'base',
+        'documents',
         ],
 
     # always loaded
     'data': [
-        
+        'data/csv_import_data.xml'
     ],
 
 }

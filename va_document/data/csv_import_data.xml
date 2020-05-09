@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+
+    <record model="documents.folder" id="folder_import">
+      <field name="name">Import</field>
+      <field name="group_ids" eval="[(5, 0, 0),
+                (4, ref('base.group_system'), 0)]"/>
+      <field name="read_group_ids" eval="[(5, 0, 0),
+                (4, ref('base.group_system'), 0)]"/>
+    </record>
+
+    <!--
+    <record model="documents.facet" id="facet_import_type">
+      <field name="name">VA-SOLUTIONS</field>
+    </record>-->
+
+  </data>
+</odoo>
