@@ -9,6 +9,7 @@ class Document(models.Model):
     _inherit = 'documents.document'
 
     @api.model
-    def import_csv(self):
+    def _import_csv(self):
+        _logger.info("This is a test")
         pass
 
