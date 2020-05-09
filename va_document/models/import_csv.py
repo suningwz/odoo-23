@@ -20,7 +20,7 @@ class Document(models.Model):
                 data = io.StringIO(decoded_data.decode("utf-8"))
                 data.seek(0)
                 file_reader = []
-                csv_reader = csv.reader(data, delimiter=',')
+                csv_reader = csv.reader(data, delimiter=';')
                 file_reader.extend(csv_reader)
                 _logger.info("{}".format(file_reader))
 
