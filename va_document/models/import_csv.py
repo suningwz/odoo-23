@@ -2,6 +2,7 @@ import logging
 
 from odoo import api, fields, models, _
 import csv
+import base64
 
 _logger = logging.getLogger(__name__)
 
@@ -10,6 +11,8 @@ class Document(models.Model):
 
     @api.model
     def _import_csv(self):
-        _logger.info("This is a test")
-        pass
+        context = self.env.context
+        for doc in context.get('active_ids'):
+            decoded_data = base64.b64decode(doc.attachment_id)
+            _logger.info("{}".format(decoded_data))
 
