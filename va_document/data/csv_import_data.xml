@@ -9,10 +9,16 @@
                 (4, ref('base.group_system'), 0)]"/>
     </record>
 
-    <!--
-    <record model="documents.facet" id="facet_import_type">
-      <field name="name">VA-SOLUTIONS</field>
-    </record>-->
+    <record model="documents.facet" id="facet_import_contact">
+      <field name="name">Contacts</field>
+      <field name="folder_id" eval="ref(folder_import)"/>
+    </record>
+
+    <record model="documents.tag" id="doctag_import_contact_pd_company">
+      <field name="name">Pipedrive Company</field>
+      <field name="facet_id" eval="ref(facet_import_contact)"/>
+      <field name="folder_id" eval="ref(folder_import)"/>
+    </record>
 
   </data>
 </odoo>
