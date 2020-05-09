@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "va_interface",
+    'name': "va_document",
 
     'summary': """
-        vertical-access.ch module for custom import""",
+        Vertical-Access Documents""",
 
     'description': """
         Used to process CSV file for custom imports
