@@ -11,13 +11,13 @@
 
     <record model="documents.facet" id="facet_import_contact">
       <field name="name">Contacts</field>
-      <field name="folder_id" eval="ref(folder_import)"/>
+      <field name="folder_id" ref="va_document.folder_import"/>
     </record>
 
     <record model="documents.tag" id="doctag_import_contact_pd_company">
       <field name="name">Pipedrive Company</field>
-      <field name="facet_id" eval="ref(facet_import_contact)"/>
-      <field name="folder_id" eval="ref(folder_import)"/>
+      <field name="facet_id" ref="va_document.facet_import_contact"/>
+      <field name="folder_id" ref="va_document.folder_import"/>
     </record>
 
   </data>
