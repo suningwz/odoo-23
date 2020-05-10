@@ -38,7 +38,7 @@ class Document(models.Model):
             headers = data.pop(0)
             for item in data:
                 vals = dict(zip(headers,item))
-                _logger.info("{}".format(vals))
+                _logger.info("{} {}".format(vals['Nom'],vals['Ville/agglomération/village/localité']))
 
 
 
