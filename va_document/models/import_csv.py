@@ -36,9 +36,13 @@ class Document(models.Model):
         self.ensure_one()
         if data:
             headers = data.pop(0)
+            _logger.info("{}".format(headers))
+            out=[]
             for item in data:
                 vals = dict(zip(headers,item))
-                _logger.info("{} {}".format(vals['Nom'],vals['Ville/agglomération/village/localité']))
+                out.append(vals)
+                #_logger.info("{} {}".format(vals['Nom'],vals['Ville/agglomération/village/localité']))
+            _logger.info("{}".format(out[0]))
 
 
 
