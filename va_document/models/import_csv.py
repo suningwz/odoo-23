@@ -15,7 +15,7 @@ class Document(models.Model):
         context = self.env.context
         if context.get('active_ids'):
             docs = self.browse(context['active_ids'])
-            for doc in docs.filtered(lambda d: self.env.ref('doctag_import_contact_pd_company') in d.tag_ids):
+            for doc in docs.filtered(lambda d: self.env.ref('va_document.doctag_import_contact_pd_company') in d.tag_ids):
                 decoded_data = base64.b64decode(doc.attachment_id.datas)
                 data = io.StringIO(decoded_data.decode("utf-8"))
                 data.seek(0)
