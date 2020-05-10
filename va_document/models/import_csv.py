@@ -21,8 +21,9 @@ class Document(models.Model):
                 else:
                     pass
     
-    @api.one
+
     def csv_decode(self,delimiter=','):
+        self.ensure_one()
         decoded_data = base64.b64decode(self.attachment_id.datas)
         data = io.StringIO(decoded_data.decode("utf-8"))
         data.seek(0)
@@ -31,8 +32,8 @@ class Document(models.Model):
         file_reader.extend(csv_reader)
         return file_reader
     
-    @api.one
     def process_pipedrive_company(self,data=False):
+        self.ensure_one()
         if data:
             headers = data.pop(0)
             for item in data:
