@@ -37,7 +37,7 @@ class Document(models.Model):
         if data:
             headers = data.pop(0)
             for item in data:
-                vals = dict.fromkeys(headers,item)
+                vals = dict(zip(headers,item))
                 _logger.info("{}".format(vals))
 
 
