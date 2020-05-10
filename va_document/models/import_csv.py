@@ -39,7 +39,7 @@ class Document(models.Model):
             _logger.info("{}".format(headers))
             out=[]
             for item in data:
-                vals = dict(zip(headers,item))
+                vals = {headers[i]:item[i] for i in range(0,len(headers))}
                 out.append(vals)
                 #_logger.info("{} {}".format(vals['Nom'],vals['Ville/agglomération/village/localité']))
             _logger.info("{}".format(out[0]))
