@@ -43,6 +43,7 @@ class Document(models.Model):
                 out.append(vals)
                 #_logger.info("{} {}".format(vals['Nom'],vals['Ville/agglomération/village/localité']))
             _logger.info("{}".format(out[0]))
+            _logger.info("{}".format(data[0]))
 
 
 
