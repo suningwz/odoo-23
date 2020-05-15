@@ -52,13 +52,14 @@ class Document(models.Model):
             _logger.info("{}".format(headers))
             
             #we initiate general values
-            vals = {
+            base = {
                 'is_company': True,
                 'company_type': 'company',
                 'company_id': self.env.ref("base.main_company").id,
             }
 
             for item in data:
+                vals = base
                 name = item[1]
                 #we search existing contact notes to find if we already imported this one
                 existing = self.env['res.partner'].search([('comment','ilike',name),('is_company','=',True)],limit=1)
