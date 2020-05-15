@@ -163,6 +163,7 @@ class Document(models.Model):
                 'social_reason_id': False,
                 'lang': 'fr_CH',
                 'name': name,
+                'lastname': name,
             })
             for conf in SOCIAL_REASON_LANG:
                 if conf[0] in name: #we have found a match
@@ -173,6 +174,7 @@ class Document(models.Model):
                         'social_reason_id': self.env['res.partner.social.reason'].search([('name','=',conf[1])],limit=1).id,
                         'lang': conf[2],
                         'name': new_name,
+                        'lastname': new_name,
                     })
                     break 
         else:
