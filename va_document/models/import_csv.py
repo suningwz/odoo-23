@@ -78,13 +78,15 @@ class Document(models.Model):
                     vals['comment'] = "{}\n{}".format(vals['comment'],item[49])
 
                     if existing:
-                        existing.write(vals)
                         _logger.info("Company Updated {}".format(vals))
+                        existing.write(vals)
+                        
                     else:
-                        existing = self.env['res.partner'].create(vals)
                         _logger.info("Company Created {}".format(vals))
+                        existing = self.env['res.partner'].create(vals)
+                        
 
-                    """#second contact if any
+                    #second contact if any
                     if item[34]:
                         existing2 = self.env['res.partner'].search([('comment','ilike',item[34]),('parent_id','=',existing.id)],limit=1)
                         vals2 = {
@@ -107,7 +109,7 @@ class Document(models.Model):
                             _logger.info("Contact Updated {}".format(vals2))
                         else:
                             existing2 = self.env['res.partner'].create(vals2)
-                            _logger.info("Contact Created {}".format(vals2))"""
+                            _logger.info("Contact Created {}".format(vals2))
 
 
                     
