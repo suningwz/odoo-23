@@ -66,7 +66,7 @@ class Document(models.Model):
                     vals.update(self.pipedrive_company_name(name))
                     vals.update(self.build_address(item[6],item[5]))
                     vals.update(self.get_regional_info(item[9],item[11]))
-                    vals.update(self.name_to_user(item[14]))
+                    #vals.update(self.name_to_user(item[14]))
                     vals.update(self.activity_to_industry(item[30]))
                     vals.update({
                         'city': item[8],
