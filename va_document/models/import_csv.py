@@ -8,11 +8,13 @@ import base64
 _logger = logging.getLogger(__name__)
 
 #format (string to search, social reason name in fr_CH, lang)
+SEARCH_LANG = ('fr_CH','de_CH','en_US')
 SOCIAL_REASON_LANG = [
     (' SA','SA','fr_CH'),
     (' AG','SA','de_CH'),
     (' SARL','SARL','fr_CH'),
     (' Sàrl','SARL','fr_CH'),
+    (' Sarl','SARL','fr_CH'),
     (' GMBH','SARL','de_CH'),
     (' GmbH','SARL','de_CH'),
 ]
@@ -58,11 +60,61 @@ class Document(models.Model):
             for item in data:
                 name = item[1]
                 #we search existing contact notes to find if we already imported this one
-                existing = self.env['res.partner'].search([('comment','ilike',name),('is_company','ilike',name)],limit=1)
+                existing = self.env['res.partner'].search([('comment','ilike',name),('is_company','=',True)],limit=1)
                 if not existing or force:
                     vals.update(self.pipedrive_company_name(name))
+                    vals.update(self.build_address(item[6],item[5]))
+                    vals.update(self.get_regional_info(item[9],item[11]))
+                    vals.update(self.name_to_user(item[14]))
+                    vals.update(self.activity_to_industry(item[30]))
+                    vals.update({
+                        'city': item[8],
+                        'zip': item[12],
+                        'website': item[31],
+                        'phone': item[32],
+                        'email': item[33],
+                    })
+            
                     _logger.info("{}".format(vals))
     
+    def name_to_user(self, name=False):
+        user = self.env['res.users'].search([('name','ilike',name)],limit=1)
+        vals = {'user_id': user.id if user else False}
+        return vals
+
+    def activity_to_industry(self, activities=False):
+        activity = activities.split(',')[0] #we keep only the 1st one
+        found = self.env['res.partner.industry'].search([('name','ilike',activity)],limit=1)
+        vals = {'industry_id': found.id if found else False}
+        return vals
+    
+    def get_regional_info(self,state_name=False,country_name=False):
+        vals = {
+            'country_id':False,
+            'state_id':False,
+        }
+        for lang in SEARCH_LANG:
+            country = self.env['res.country'].with_context(lang=lang).search([('name','ilike',country_name)],limit=1)
+            if country:
+                vals['country_id']=country.id
+                break
+        for lang in SEARCH_LANG:
+            state = self.env['res.country.state'].with_context(lang=lang).search([('name','ilike',state_name)],limit=1)
+            if state:
+                vals['state_id']=state.id
+                break
+        
+        return vals
+
+    
+    def build_address(self,street=False,number=False):
+        if street and number:
+            return {'street':"{} {}".format(street,number)}
+        elif street:
+            return {'street':"{}".format(street)}
+        else:
+            return {'street':False}
+
     def pipedrive_company_name(self,name = False):
         self.ensure_one()
         vals={}
