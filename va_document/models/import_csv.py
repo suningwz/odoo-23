@@ -54,7 +54,7 @@ class Document(models.Model):
             vals = {
                 'is_company': True,
                 'company_type': 'company',
-                'company_id': self.env.ref("base.main_company"),
+                'company_id': self.env.ref("base.main_company").id,
             }
 
             for item in data:
@@ -74,8 +74,42 @@ class Document(models.Model):
                         'phone': item[32],
                         'email': item[33],
                     })
-            
-                    _logger.info("{}".format(vals))
+                    vals['comment'] = "{}\n{}".format(vals['comment'],item[49])
+
+                    if existing:
+                        existing.write(vals)
+                        _logger.info("Company Updated {}".format(vals))
+                    else:
+                        existing = self.env['res.partner'].create(vals)
+                        _logger.info("Company Created {}".format(vals))
+
+                    #second contact if any
+                    if item[34]:
+                        existing2 = self.env['res.partner'].search([('comment','ilike',item[34]),('parent_id','=',existing.id)],limit=1)
+                        vals2 = {
+                            'company_type': 'person',
+                            'company_id': self.env.ref("base.main_company").id,
+                            'parent_id': existing.id,
+                            'type':'contact',
+                            'name':item[34],
+                            'city': item[41],
+                            'zip': item[45],
+                            'phone': item[47],
+                            'email': item[48],
+                            'website':item[35],
+                            'comment':'Origin Name | {}'.format(item[34]),
+                        }
+                        vals2.update(self.build_address(item[39],item[38]))
+                        vals2.update(self.get_regional_info(item[42],item[44]))
+                        if existing2:
+                            existing2.write(vals2)
+                            _logger.info("Contact Updated {}".format(vals2))
+                        else:
+                            existing2 = self.env['res.partner'].create(vals2)
+                            _logger.info("Contact Created {}".format(vals2))
+
+
+                    
     
     def name_to_user(self, name=False):
         user = self.env['res.users'].search([('name','ilike',name)],limit=1)
