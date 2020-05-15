@@ -24,6 +24,7 @@ class Document(models.Model):
 
     @api.model
     def _import_csv(self):
+        self = self.sudo()
         context = self.env.context
         if context.get('active_ids'):
             docs = self.browse(context['active_ids'])
@@ -113,7 +114,7 @@ class Document(models.Model):
     
     def name_to_user(self, name=False):
         user = self.env['res.users'].search([('name','ilike',name)],limit=1)
-        vals = {'user_id': user.id if user else False}
+        vals = {'user_id': user.id if user else False,}
         return vals
 
     def activity_to_industry(self, activities=False):
