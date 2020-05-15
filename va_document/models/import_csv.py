@@ -66,7 +66,7 @@ class Document(models.Model):
                     vals.update(self.pipedrive_company_name(name))
                     vals.update(self.build_address(item[6],item[5]))
                     vals.update(self.get_regional_info(item[9],item[11]))
-                    #vals.update(self.name_to_user(item[14]))
+                    vals.update(self.name_to_user(item[14]))
                     vals.update(self.activity_to_industry(item[30]))
                     vals.update({
                         'city': item[8],
@@ -84,7 +84,7 @@ class Document(models.Model):
                         existing = self.env['res.partner'].create(vals)
                         _logger.info("Company Created {}".format(vals))
 
-                    #second contact if any
+                    """#second contact if any
                     if item[34]:
                         existing2 = self.env['res.partner'].search([('comment','ilike',item[34]),('parent_id','=',existing.id)],limit=1)
                         vals2 = {
@@ -107,7 +107,7 @@ class Document(models.Model):
                             _logger.info("Contact Updated {}".format(vals2))
                         else:
                             existing2 = self.env['res.partner'].create(vals2)
-                            _logger.info("Contact Created {}".format(vals2))
+                            _logger.info("Contact Created {}".format(vals2))"""
 
 
                     
