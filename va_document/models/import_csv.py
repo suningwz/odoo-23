@@ -86,7 +86,7 @@ class Document(models.Model):
                         'name':name,
                         'function':item[3],
                         'phone':item[4],
-                        'email':item[25],
+                        'email':item[23],
                     })
 
                     if existing:
