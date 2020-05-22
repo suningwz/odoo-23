@@ -109,10 +109,10 @@ class Document(models.Model):
                         vals2.update(self.get_regional_info(item[42],item[44]))
                         if existing2:
                             existing2.write(vals2)
-                            _logger.info("Extra Company Updated {} | {}/{}".format(vals2['name'],count,len(data)))
+                            _logger.info("Extra Company Updated {} | {}/{}".format(item[34],count,len(data)))
                         else:
                             existing2 = self.env['res.partner'].create(vals2)
-                            _logger.info("Extra Company Created {} | {}/{}".format(vals2['name'],count,len(data)))
+                            _logger.info("Extra Company Created {} | {}/{}".format(item[34],count,len(data)))
                         
                         vals2.clear()
 
