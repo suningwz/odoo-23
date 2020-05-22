@@ -94,6 +94,8 @@ class Document(models.Model):
                     else:
                         _logger.info("Company Created {}".format(vals))
                         existing = self.env['res.partner'].create(vals)
+                    
+                    vals = {}
                         
 
                     #second contact if any
