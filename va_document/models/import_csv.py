@@ -74,13 +74,14 @@ class Document(models.Model):
                     vals.update(self.name_to_user(item[8]))
 
                     #we search the parent
-                    parent = self.env['res.partner'].search([('comment','ilike',item[7]),('is_company','=',True)],limit=1)
-                    if parent:
-                        vals.update({
-                            'parent_id':parent.id,
-                            'lang':parent.lang,
-                            'user_id':parent.user_id.id,
-                        })
+                    if item[7]:
+                        parent = self.env['res.partner'].search([('comment','ilike',item[7]),('is_company','=',True)],limit=1)
+                        if parent:
+                            vals.update({
+                                'parent_id':parent.id,
+                                'lang':parent.lang,
+                                'user_id':parent.user_id.id,
+                            })
 
                     vals.update({
                         'name':name,
