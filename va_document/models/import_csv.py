@@ -49,16 +49,17 @@ class Document(models.Model):
         self.ensure_one()
         if data:
             headers = data.pop(0)
-            _logger.info("{}".format(headers))
+            count = 0
+            #_logger.info("{}".format(headers))
             
             for item in data:
-                _logger.info("0. ITEM {}".format(item))
+                count += 1
+                #_logger.info("0. ITEM {}".format(item))
                 vals = {
                     'is_company': True,
                     'company_type': 'company',
                     'company_id': self.env.ref("base.main_company").id,
                 }
-                _logger.info("1. BASE {}".format(vals))
                 name = item[1]
                 #we search existing contact notes to find if we already imported this one
                 existing = self.env['res.partner'].search([('comment','ilike',name),('is_company','=',True)],limit=1)
@@ -78,12 +79,12 @@ class Document(models.Model):
                     vals['comment'] = "{}\n{}".format(vals['comment'],item[49])
                    
                     if existing:
-                        _logger.info("Company Updated {}".format(vals))
                         existing.write(vals)
+                        _logger.info("Company Updated {} | {}/{}".format(vals['lastname'],count,len(data)))
                         
                     else:
-                        _logger.info("Company Created {}".format(vals))
                         existing = self.env['res.partner'].create(vals)
+                        _logger.info("Company Created {} | {}/{}".format(vals['lastname'],count,len(data)))
                     
                     vals.clear()
                         
@@ -108,10 +109,10 @@ class Document(models.Model):
                         vals2.update(self.get_regional_info(item[42],item[44]))
                         if existing2:
                             existing2.write(vals2)
-                            _logger.info("Contact Updated {}".format(vals2))
+                            _logger.info("Extra Company Updated {} | {}/{}".format(vals2['lastname'],count,len(data)))
                         else:
                             existing2 = self.env['res.partner'].create(vals2)
-                            _logger.info("Contact Created {}".format(vals2))
+                            _logger.info("Extra Company Created {} | {}/{}".format(vals2['lastname'],count,len(data)))
                         
                         vals2.clear()
 
