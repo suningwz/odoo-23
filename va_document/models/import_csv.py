@@ -30,7 +30,7 @@ class Document(models.Model):
             docs = self.browse(context['active_ids'])
             for doc in docs:
                 if self.env.ref('va_document.doctag_import_contact_pd_company') in doc.tag_ids:
-                    doc.process_pipedrive_company(doc.csv_decode(';'))
+                    doc.process_pipedrive_company(doc.csv_decode(';'),True)
                 else:
                     pass
     
@@ -116,8 +116,6 @@ class Document(models.Model):
                         
                         vals2.clear()
 
-
-                    
     
     def name_to_user(self, name=False):
         user = self.env['res.users'].search([('name','ilike',name)],limit=1)
