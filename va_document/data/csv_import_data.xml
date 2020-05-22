@@ -20,6 +20,12 @@
       <field name="folder_id" ref="va_document.folder_import"/>
     </record>
 
+    <record model="documents.tag" id="doctag_import_contact_pd_person">
+      <field name="name">Pipedrive Person</field>
+      <field name="facet_id" ref="va_document.facet_import_contact"/>
+      <field name="folder_id" ref="va_document.folder_import"/>
+    </record>
+
     <record id="action_import" model="ir.actions.server">
       <field name="name">Import File</field>
       <field name="model_id" ref="documents.model_documents_document"/>

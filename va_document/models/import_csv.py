@@ -31,6 +31,8 @@ class Document(models.Model):
             for doc in docs:
                 if self.env.ref('va_document.doctag_import_contact_pd_company') in doc.tag_ids:
                     doc.process_pipedrive_company(doc.csv_decode(';'),True)
+                elif self.env.ref('va_document.doctag_import_contact_pd_person') in doc.tag_ids:
+                    doc.process_pipedrive_person(doc.csv_decode(';'),True)
                 else:
                     pass
     
@@ -44,6 +46,55 @@ class Document(models.Model):
         csv_reader = csv.reader(data, delimiter=';')
         file_reader.extend(csv_reader)
         return file_reader
+    
+    def process_pipedrive_person(self,data=False,force=False):
+        self.ensure_one()
+        if data:
+            headers = data.pop(0)
+            count = 0
+            #_logger.info("{}".format(headers))
+            
+            for item in data:
+                count += 1
+                #_logger.info("0. ITEM {}".format(item))
+                vals = {
+                    'is_company': False,
+                    'company_type': 'person',
+                    'company_id': self.env.ref("base.main_company").id,
+                    'type':'contact',
+                }
+                name = item[1]
+                #we search existing contact notes to find if we already imported this one
+                existing = self.env['res.partner'].search([('comment','ilike',name),('is_company','=',False)],limit=1)
+                if not existing or force:
+
+                    vals.update(self.name_to_user(item[8]))
+
+                    #we search the parent
+                    parent = self.env['res.partner'].search([('comment','ilike',item[7]),('is_company','=',True)],limit=1)
+                    if parent:
+                        vals.update({
+                            'parent_id':parent.id,
+                            'lang':parent.lang,
+                            'user_id':parent.user_id.id,
+                        })
+
+                    vals.update({
+                        'name':name,
+                        'function':item[3],
+                        'phone':item[4],
+                        'email':item[25],
+                    })
+
+                    if existing:
+                        existing.write(vals)
+                        _logger.info("Contact Updated {} | {}/{}".format(vals['name'],count,len(data)))
+                        
+                    else:
+                        existing = self.env['res.partner'].create(vals)
+                        _logger.info("Contact Created {} | {}/{}".format(vals['name'],count,len(data)))
+                    vals.clear()
+
     
     def process_pipedrive_company(self,data=False,force=False):
         self.ensure_one()
