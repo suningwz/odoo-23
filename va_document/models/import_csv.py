@@ -91,11 +91,11 @@ class Document(models.Model):
 
                     if existing:
                         existing.write(vals)
-                        _logger.info("Contact Updated {} | {}/{}".format(vals['name'],count,len(data)))
+                        _logger.info("Contact Updated {} | {}/{}".format(name,count,len(data)))
                         
                     else:
                         existing = self.env['res.partner'].create(vals)
-                        _logger.info("Contact Created {} | {}/{}".format(vals['name'],count,len(data)))
+                        _logger.info("Contact Created {} | {}/{}".format(name,count,len(data)))
                     vals.clear()
 
     
