@@ -51,31 +51,23 @@ class Document(models.Model):
             headers = data.pop(0)
             _logger.info("{}".format(headers))
             
-            #we initiate general values
-            base = {
-                'is_company': True,
-                'company_type': 'company',
-                'company_id': self.env.ref("base.main_company").id,
-            }
-
             for item in data:
                 _logger.info("0. ITEM {}".format(item))
-                vals = base
+                vals = {
+                    'is_company': True,
+                    'company_type': 'company',
+                    'company_id': self.env.ref("base.main_company").id,
+                }
                 _logger.info("1. BASE {}".format(vals))
                 name = item[1]
                 #we search existing contact notes to find if we already imported this one
                 existing = self.env['res.partner'].search([('comment','ilike',name),('is_company','=',True)],limit=1)
                 if not existing or force:
                     vals.update(self.pipedrive_company_name(name))
-                    _logger.info("2. COMP NAME {}".format(vals))
                     vals.update(self.build_address(item[6],item[5]))
-                    _logger.info("3. ADDRESS {}".format(vals))
                     vals.update(self.get_regional_info(item[9],item[11]))
-                    _logger.info("4. REGIO {}".format(vals))
                     vals.update(self.name_to_user(item[14]))
-                    _logger.info("5. VENDOR {}".format(vals))
                     vals.update(self.activity_to_industry(item[30]))
-                    _logger.info("6. INDUSTRY {}".format(vals))
                     vals.update({
                         'city': item[8],
                         'zip': item[12],
@@ -83,10 +75,8 @@ class Document(models.Model):
                         'phone': item[32],
                         'email': item[33],
                     })
-                    _logger.info("7. MANUAL {}".format(vals))
                     vals['comment'] = "{}\n{}".format(vals['comment'],item[49])
-                    _logger.info("8. COMMENT {}".format(vals))
-
+                   
                     if existing:
                         _logger.info("Company Updated {}".format(vals))
                         existing.write(vals)
@@ -95,7 +85,7 @@ class Document(models.Model):
                         _logger.info("Company Created {}".format(vals))
                         existing = self.env['res.partner'].create(vals)
                     
-                    vals = {}
+                    vals.clear()
                         
 
                     #second contact if any
@@ -122,6 +112,8 @@ class Document(models.Model):
                         else:
                             existing2 = self.env['res.partner'].create(vals2)
                             _logger.info("Contact Created {}".format(vals2))
+                        
+                        vals2.clear()
 
 
                     
