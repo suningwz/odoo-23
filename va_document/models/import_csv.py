@@ -40,7 +40,10 @@ class Document(models.Model):
     def csv_decode(self,delimiter=','):
         self.ensure_one()
         decoded_data = base64.b64decode(self.attachment_id.datas)
-        data = io.StringIO(decoded_data.decode("utf-8"))
+        try:
+            data = io.StringIO(decoded_data.decode("utf-8"))
+        except:
+            data = io.StringIO(decoded_data.decode("latin-1"))
         data.seek(0)
         file_reader = []
         csv_reader = csv.reader(data, delimiter=';')
