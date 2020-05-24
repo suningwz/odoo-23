@@ -33,6 +33,8 @@
             <!-- Fields we are suppressing from the origin view -->
             <field name='company_id' position="replace">
             </field>
+            <field name='user_id' position="replace">
+            </field>
 
             <!-- Fields we add to the view -->
             <label name='address_name' position="before">
@@ -41,6 +43,7 @@
 
             <field name='vat' position="after">
               <field name='company_id' string="VA-GROUP" required="1"/>
+              <field name='user_id' required="1" domain="[('company_ids','in','company_id')]"/>
             </field>
             
         </field>

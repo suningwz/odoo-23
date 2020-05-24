@@ -1,0 +1,37 @@
+<odoo>
+  <data>
+
+    <record model="documents.folder" id="folder_import">
+      <field name="name">Import</field>
+      <field name="group_ids" eval="[(5, 0, 0),
+                (4, ref('base.group_system'), 0)]"/>
+      <field name="read_group_ids" eval="[(5, 0, 0),
+                (4, ref('base.group_system'), 0)]"/>
+    </record>
+
+    <record model="documents.facet" id="facet_import_contact">
+      <field name="name">Contacts</field>
+      <field name="folder_id" ref="va_document.folder_import"/>
+    </record>
+
+    <record model="documents.tag" id="doctag_import_contact_pd_company">
+      <field name="name">Pipedrive Company</field>
+      <field name="facet_id" ref="va_document.facet_import_contact"/>
+      <field name="folder_id" ref="va_document.folder_import"/>
+    </record>
+
+    <record model="documents.tag" id="doctag_import_contact_pd_person">
+      <field name="name">Pipedrive Person</field>
+      <field name="facet_id" ref="va_document.facet_import_contact"/>
+      <field name="folder_id" ref="va_document.folder_import"/>
+    </record>
+
+    <record id="action_import" model="ir.actions.server">
+      <field name="name">Import File</field>
+      <field name="model_id" ref="documents.model_documents_document"/>
+      <field name="state">code</field>
+      <field name="code">model._import_csv()</field>
+    </record>
+
+  </data>
+</odoo>

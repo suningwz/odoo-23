@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "va_contact",
+    'name': "va_document",
 
     'summary': """
-        vertical-access.ch Contact Customs""",
+        Vertical-Access Documents""",
 
     'description': """
-        Host the custom modifications required for contact management for vertical access.
+        Used to process CSV file for custom imports
     """,
 
     'author': "Vertical Access Sàrl",
@@ -16,24 +16,17 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Vertical-Access',
-    'version': '0.1.19',
+    'version': '0.1.7',
 
     # any module necessary for this one to work correctly
     'depends': [
         'base',
-        'contacts',
-        'partner_firstname',
-        'va_admin',
+        'documents',
         ],
 
     # always loaded
     'data': [
-        #security
-        'security/ir.model.access.csv',
-        'security/record_rules.xml',
-        #views
-        'views/res_partner_views.xml',
-        'views/social_reason_views.xml',
+        'data/csv_import_data.xml'
     ],
 
 }
