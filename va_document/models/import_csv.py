@@ -267,12 +267,12 @@ class Document(models.Model):
         }
         for lang in SEARCH_LANG:
             country = self.env['res.country'].with_context(lang=lang).search([('name','ilike',country_name)],limit=1)
-            if country:
+            if country_name and country:
                 vals['country_id']=country.id
                 break
         for lang in SEARCH_LANG:
             state = self.env['res.country.state'].with_context(lang=lang).search([('name','ilike',state_name)],limit=1)
-            if state:
+            if state_name and state:
                 vals['state_id']=state.id
                 break
         
