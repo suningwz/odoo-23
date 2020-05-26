@@ -84,6 +84,7 @@ class Document(models.Model):
                             'is_company': False,
                             'company_type': 'person',
                             'type':'contact',
+                            'name': name,
                         })
                     else:
                         #we create two partners, one company and a related contact
