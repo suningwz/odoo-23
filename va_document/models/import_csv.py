@@ -33,6 +33,8 @@ class Document(models.Model):
                     doc.process_pipedrive_company(doc.csv_decode(';'),True)
                 elif self.env.ref('va_document.doctag_import_contact_pd_person') in doc.tag_ids:
                     doc.process_pipedrive_person(doc.csv_decode(';'),True)
+                elif self.env.ref('va_document.doctag_import_contact_winbiz') in doc.tag_ids:
+                    doc.process_winbiz(doc.csv_decode(';'),True)
                 else:
                     pass
     
@@ -49,6 +51,80 @@ class Document(models.Model):
         csv_reader = csv.reader(data, delimiter=';')
         file_reader.extend(csv_reader)
         return file_reader
+
+    def process_winbiz(self,data=False,force=False):
+        self.ensure_one()
+        if data:
+            headers = data.pop(0)
+            count = 0
+
+            for item in data:
+                count += 1
+                has_subcontact = False
+                name = item[0]  
+                
+                existing = self.env['res.partner'].search([('comment','ilike',name)],limit=1)
+                if not existing or force:
+                    vals = {
+                        'company_id': self.env.ref("base.main_company").id,
+                        'street':item[4],
+                        'street2':item[5],
+                        'zip':item[6],
+                        'city':item[7],
+                        'country':item[8],
+                        'email':item[12],
+                        'website':item[13],
+                        'vat':item[15],
+                        'comment':'Origin Name | {}'.format(name),
+                    }
+                    #we try to guess if this is a company or not
+                    if name == "{} {}".format(item[2],item[3]):
+                        #in this case, this is a person
+                        vals.update({
+                            'is_company': False,
+                            'company_type': 'person',
+                            'type':'contact',
+                        })
+                    else:
+                        #we create two partners, one company and a related contact
+                        has_subcontact = True
+                        vals.update({
+                            'is_company': True,
+                            'company_type': 'company',
+                        })
+                        vals.update(self.pipedrive_company_name(name))
+
+                    if existing:
+                        existing.write(vals)
+                        _logger.info("Contact Updated {} | {}/{}".format(name,count,len(data)))
+                        
+                    else:
+                        existing = self.env['res.partner'].create(vals)
+                        _logger.info("Contact Created {} | {}/{}".format(name,count,len(data)))
+
+                    if item[2] and has_subcontact:
+                        existing2 = self.env['res.partner'].search([('comment','ilike','{} {}'.format(item[1],item[2])),('parent_id','=',existing.id)],limit=1)
+                        vals2 = {
+                            'company_type': 'person',
+                            'company_id': self.env.ref("base.main_company").id,
+                            'parent_id': existing.id,
+                            'type':'contact',
+                            'firstname':item[2],
+                            'lastname': item[1],
+                            'comment':'Origin Name | {} {}'.format(item[1],item[2]),
+                        }
+                        if existing2:
+                            existing2.write(vals2)
+                            _logger.info("Sub-Contact Updated {} | {}/{}".format(name,count,len(data)))
+                            
+                        else:
+                            existing2 = self.env['res.partner'].create(vals2)
+                            _logger.info("Sub-Contact Created {} | {}/{}".format(name,count,len(data)))
+
+                        vals2.clear()
+                        
+                vals.clear()
+
     
     def process_pipedrive_person(self,data=False,force=False):
         self.ensure_one()
