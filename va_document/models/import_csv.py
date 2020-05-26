@@ -71,12 +71,12 @@ class Document(models.Model):
                         'street2':item[5],
                         'zip':item[6],
                         'city':item[7],
-                        'country':item[8],
                         'email':item[12],
                         'website':item[13],
                         'vat':item[15],
                         'comment':'Origin Name | {}'.format(name),
                     }
+                    vals.update(self.get_regional_info(False,item[8]))
                     #we try to guess if this is a company or not
                     if name == "{} {}".format(item[2],item[3]):
                         #in this case, this is a person
