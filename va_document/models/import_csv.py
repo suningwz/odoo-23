@@ -138,6 +138,7 @@ class Document(models.Model):
                 count += 1
                 #_logger.info("0. ITEM {}".format(item))
                 vals = {
+                    'customer_rank':1,
                     'is_company': False,
                     'company_type': 'person',
                     'company_id': self.env.ref("base.main_company").id,
@@ -191,6 +192,7 @@ class Document(models.Model):
                     'is_company': True,
                     'company_type': 'company',
                     'company_id': self.env.ref("base.main_company").id,
+                    'customer_rank':1,
                 }
                 name = item[1]
                 #we search existing contact notes to find if we already imported this one
@@ -228,6 +230,7 @@ class Document(models.Model):
                             'company_type': 'person',
                             'company_id': self.env.ref("base.main_company").id,
                             'parent_id': existing.id,
+                            'customer_rank':1,
                             'type':'contact',
                             'name':item[34],
                             'city': item[41],
