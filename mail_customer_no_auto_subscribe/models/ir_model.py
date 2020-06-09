@@ -11,5 +11,5 @@ class IrModel(models.Model):
     )
     allow_supplier_follow = fields.Boolean(
         'Allow suppliers',
-        default=True
+        default=False
     )
