@@ -18,7 +18,7 @@ as it is considered a manual action.
 
     'author': "Vertical Access",
     'website': "http://www.vertical-access.ch",
-    'version': '13.0.3',
+    'version': '13.0.4',
     'depends': [
         'base',
         'mail',

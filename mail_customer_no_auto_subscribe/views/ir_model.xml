@@ -19,7 +19,6 @@
         <record model="ir.actions.act_window" id="action_view_model_auto_follow">
             <field name="name">Customer auto follow Models</field>
             <field name="res_model">ir.model</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree</field>
             <field name="domain">[('transient', '=', False)]</field>
             <field name="view_id" ref="view_model_tree"/>
