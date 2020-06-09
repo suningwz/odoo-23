@@ -23,7 +23,7 @@ class MailThread(models.AbstractModel):
         _logger.info("CONTEXT SUBSCRIBE | {}".format(self.env.context))
         ir_config = self.env['ir.config_parameter']
         app_stop_subscribe = bool(strtobool(ir_config.sudo().get_param('app_stop_subscribe')))
-        if app_stop_subscribe:
+        if app_stop_subscribe and not ('mail_invite_follower_channel_only' in self._context):
             return
         else:
             return super(MailThread, self).message_subscribe(partner_ids, channel_ids, subtype_ids)
