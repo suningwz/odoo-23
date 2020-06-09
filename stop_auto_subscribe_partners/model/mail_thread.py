@@ -8,6 +8,13 @@ from distutils.util import strtobool
 import logging
 _logger = logging.getLogger(__name__)
 
+class Invite(models.TransientModel):
+    _inherit = 'mail.wizard.invite'
+
+    def add_followers(self):
+        return super(Invite, self.with_context(allow_auto_follow=True))\
+            .add_followers()
+
 
 class MailThread(models.AbstractModel):
     _inherit = "mail.thread"
