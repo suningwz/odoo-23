@@ -16,8 +16,8 @@ as it is considered a manual action.
 {'allow_auto_follow': True} to the context. 
     """,
 
-    'author': "Voisin Consulting",
-    'website': "http://www.voisinconsulting.com",
+    'author': "Vertical Access",
+    'website': "http://www.vertical-access.ch",
     'version': '0.0.2',
     'depends': [
         'base',
