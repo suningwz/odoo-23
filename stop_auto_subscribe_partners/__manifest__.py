@@ -19,7 +19,7 @@
     'author': "cube48 AG",
     'website': "https://www.cube48.de",
     'category': 'Tools',
-    'version': '13.0.',
+    'version': '13.0.1',
     'depends': [
         'base',
         'mail',

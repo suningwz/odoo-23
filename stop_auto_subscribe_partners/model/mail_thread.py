@@ -5,11 +5,15 @@
 from odoo import api, fields, models, _
 from distutils.util import strtobool 
 
+import logging
+_logger = logging.getLogger(__name__)
+
 
 class MailThread(models.AbstractModel):
     _inherit = "mail.thread"
 
     def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
+        _logger.info("CONTEXT | {}".format(self.env.context))
         ir_config = self.env['ir.config_parameter']
         app_stop_subscribe = bool(strtobool(ir_config.sudo().get_param('app_stop_subscribe')))
         if app_stop_subscribe:
