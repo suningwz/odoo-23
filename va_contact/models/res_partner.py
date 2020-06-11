@@ -10,6 +10,7 @@ class SocialReason(models.Model):
 
     name = fields.Char(translate=True)
     active = fields.Boolean(default=True)
+    add_to_name = fields.Boolean(default=True,string=_('Add to Contact Name'))
 
 class ResPartner(models.Model):
 
@@ -29,32 +30,38 @@ class ResPartner(models.Model):
 
     ### CUSTOM NAMING
     ### The 3 below methods are designed to automatically add the social reason
-    ### at the end of the comany name, in the language of the partner
+    ### at the end of the comany name, if 'add_to_name' is True, in the language of the partner
     
     @api.onchange('name')
     def _onchange_name(self):
         if self.is_company and self.social_reason_id:
-            social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
-            self.name = self.name.split(social_reason)[0] + social_reason
+            if self.social_reason_id.add_to_name:
+                social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
+                self.name = self.name.split(social_reason)[0] + social_reason
+            else:
+                pass
         else:
             pass
     
     @api.onchange('lang')
     def _onchange_lang(self):
         if self.is_company and self.social_reason_id:
-            prev = self._origin
-            prev_social_reason = (" " + self.with_context(lang=prev.lang).social_reason_id.name)
-            social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
-            _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
-            self.name = self.name.split(prev_social_reason)[0] + social_reason
+            if self.social_reason_id.add_to_name:
+                prev = self._origin
+                prev_social_reason = (" " + self.with_context(lang=prev.lang).social_reason_id.name)
+                social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
+                _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
+                self.name = self.name.split(prev_social_reason)[0] + social_reason
+            else:
+                pass
         else:
             pass
     
     @api.onchange('social_reason_id')
     def _onchange_social_reason_id(self):
+        prev = self._origin
         if self.is_company and self.social_reason_id:
             social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
-            prev = self._origin
             if prev.social_reason_id:
                 prev_social_reason = (" " + prev.with_context(lang=self.lang).social_reason_id.name)
                 self.name = self.name.split(prev_social_reason)[0] + social_reason
