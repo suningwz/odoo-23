@@ -76,8 +76,10 @@ class ResPartner(models.Model):
             old_name = prev.with_context(lang=self.lang).social_reason_id.name
             new_name = self.with_context(lang=self.lang).social_reason_id.name
             temp = self.find_and_split(old_name,self.name)
+            _logger.info("{} removed from {} output {}".format(old_name,self.name,temp))
             if self.social_reason_id.add_to_name:
                 self.name = self.find_and_split(new_name,temp) + " " + new_name
+                _logger.info("{} added to {} output {}".format(new_name,temp,self.name))
             else:
                 self.name = temp
             
