@@ -83,7 +83,7 @@ class ResPartner(models.Model):
             
     def find_and_split(self,search=False,string=False):
         if search and string:
-            found = string.lower().search(search.lower()) 
+            found = string.lower().find(search.lower()) 
             if found > 0:
                 output = string[:found] + string[found+len(search):]
                 _logger.info("{} found in {} output {}".format(search,string,output))
