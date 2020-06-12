@@ -77,7 +77,7 @@ class ResPartner(models.Model):
             new_name = self.with_context(lang=self.lang).social_reason_id.name
             temp = self.find_and_split(old_name,self.name)
             if self.social_reason_id.add_to_name:
-                self.name = temp + " " + new_name
+                self.name = self.find_and_split(new_name,temp) + " " + new_name
             else:
                 self.name = temp
             
@@ -85,7 +85,7 @@ class ResPartner(models.Model):
         if search and string:
             found = string.lower().find(search.lower()) 
             if found > 0:
-                output = string[:found] + string[found+len(search):]
+                output = string[:found-1] + string[found+len(search):]
                 _logger.info("{} found in {} output {}".format(search,string,output))
                 return output
             else:
