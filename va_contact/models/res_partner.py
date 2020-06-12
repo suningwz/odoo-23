@@ -89,6 +89,7 @@ class ResPartner(models.Model):
                 _logger.info("{} found in {} output {}".format(search,string,output))
                 return output
             else:
+                _logger.info("{} not found in {}".format(search,string))
                 return string
         else:
             return string
