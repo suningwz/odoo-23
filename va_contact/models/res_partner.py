@@ -121,6 +121,7 @@ class ResPartner(models.Model):
             name = comp.comment[14:]
             for conf in SOCIAL_REASON_LANG:
                 if conf[0] in name: #we have found a match
+                    name = name.replace(conf[0],'')
                     comp.name = name
                     comp.social_reason_id = self.env['res.partner.social.reason'].search([('name','=',conf[1])],limit=1)
                     comp._onchange_social_reason_id()
