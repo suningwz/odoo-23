@@ -116,7 +116,7 @@ class ResPartner(models.Model):
             (' GmbH','Sàrl','de_CH'),
         ]
 
-        to_process = self.env.search([('social_reason_id','=',False),('is_company','=',True)])
+        to_process = self.search([('social_reason_id','=',False),('is_company','=',True)])
         for comp in to_process:
             name = comp.name
             for conf in SOCIAL_REASON_LANG:
