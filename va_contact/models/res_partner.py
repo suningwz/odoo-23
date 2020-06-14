@@ -116,11 +116,12 @@ class ResPartner(models.Model):
             (' AG','SA','de_CH'),
         ]
 
-        to_process = self.search([('social_reason_id','=',False),('is_company','=',True)])
+        to_process = self.search([('social_reason_id','=',False),('is_company','=',True),('comment','ilike','Origin Name | ')])
         for comp in to_process:
-            name = comp.name
+            name = comp.comment[14:]
             for conf in SOCIAL_REASON_LANG:
                 if conf[0] in name: #we have found a match
+                    comp.name = name
                     comp.social_reason_id = self.env['res.partner.social.reason'].search([('name','=',conf[1])],limit=1)
                     comp._onchange_social_reason_id()
                     _logger.info("{} updated in {}, social reason {}".format(name,comp.name,comp.social_reason_id.name))
