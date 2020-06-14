@@ -101,4 +101,31 @@ class ResPartner(models.Model):
                 return string
         else:
             return string
+    
+    @api.model
+    def name_to_social_reason(self):
+        #format (string to search, social reason name in fr_CH, lang)
+        SEARCH_LANG = ('fr_CH','de_CH','en_US')
+        SOCIAL_REASON_LANG = [
+            (' SA','SA','fr_CH'),
+            (' AG','SA','de_CH'),
+            (' SARL','Sàrl','fr_CH'),
+            (' Sàrl','Sàrl','fr_CH'),
+            (' Sarl','Sàrl','fr_CH'),
+            (' GMBH','Sàrl','de_CH'),
+            (' GmbH','Sàrl','de_CH'),
+        ]
+
+        to_process = self.env.search([('social_reason_id','=',False),('is_company','=',True)])
+        for comp in to_process:
+            name = comp.name
+            for conf in SOCIAL_REASON_LANG:
+                if conf[0] in name: #we have found a match
+                    comp.social_reason_id = self.env['res.partner.social.reason'].search([('name','=',conf[1])],limit=1)
+                    comp._onchange_social_reason_id()
+                    _logger.info("{} updated in {}, social reason {}".format(name,comp.name,comp.social_reason_id.name))
+                    break
+                else:
+                    pass
+
 
