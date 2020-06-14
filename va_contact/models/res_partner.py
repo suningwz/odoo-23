@@ -50,7 +50,7 @@ class ResPartner(models.Model):
                 prev = self._origin
                 prev_social_reason = (" " + self.with_context(lang=prev.lang).social_reason_id.name)
                 social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
-                _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
+                #_logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
                 self.name = self.name.split(prev_social_reason)[0] + social_reason
             else:
                 pass
@@ -94,10 +94,10 @@ class ResPartner(models.Model):
             found = string.lower().find(search.lower()) 
             if found > 0:
                 output = string[:found-1] + string[found+len(search):]
-                _logger.info("{} found in {} output {}".format(search,string,output))
+                #_logger.info("{} found in {} output {}".format(search,string,output))
                 return output
             else:
-                _logger.info("{} not found in {}".format(search,string))
+                #_logger.info("{} not found in {}".format(search,string))
                 return string
         else:
             return string
@@ -107,13 +107,13 @@ class ResPartner(models.Model):
         #format (string to search, social reason name in fr_CH, lang)
         SEARCH_LANG = ('fr_CH','de_CH','en_US')
         SOCIAL_REASON_LANG = [
-            (' SA','SA','fr_CH'),
-            (' AG','SA','de_CH'),
             (' SARL','Sàrl','fr_CH'),
             (' Sàrl','Sàrl','fr_CH'),
             (' Sarl','Sàrl','fr_CH'),
             (' GMBH','Sàrl','de_CH'),
             (' GmbH','Sàrl','de_CH'),
+            (' SA','SA','fr_CH'),
+            (' AG','SA','de_CH'),
         ]
 
         to_process = self.search([('social_reason_id','=',False),('is_company','=',True)])
