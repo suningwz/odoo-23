@@ -20,6 +20,20 @@ class ResPartner(models.Model):
         comodel_name='res.partner.social.reason',
     )
 
+    generic_search = fields.Char(
+        compute = '_compute_generic_search',
+        store=True,
+        index=True,
+    )
+
+    @api.depends('display_name','company_group_id','company_group_id.name','email')
+    def _compute_generic_search(self):
+        for rec in self:
+            search_string = rec.display_name
+            search_string += rec.company_group_id.name if rec.company_group_id else ''
+            search_string += rec.email if rec.email else ''
+            rec.generic_search = search_string
+
     @api.onchange('lastname')
     def _onchange_lastname(self):
         #For individuals, we force the lastname in capital

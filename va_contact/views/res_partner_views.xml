@@ -23,6 +23,24 @@
         </field>
     </record>
 
+    <!-- Modification of Search View for company group part -->
+    <record model="ir.ui.view" id="view_res_partner_filter_grp">
+        <field name="name">res.partner.filter.v_a.grp</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_company_group.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+
+            <!-- We remove it from the top of the search, replace by a generic search field and add it below-->
+            <field name='company_group_id' position="replace">
+              <field name='generic_search'/>
+            </field>
+            <field name='parent_id' position="after">
+              <field name='company_group_id'/>
+            </field>
+            
+        </field>
+    </record>
+
     <!-- Modification of Partner -->
     <record model="ir.ui.view" id="view_partner_form">
         <field name="name">res.partner.form.v_a</field>
