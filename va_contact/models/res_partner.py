@@ -108,12 +108,26 @@ class ResPartner(models.Model):
         SEARCH_LANG = ('fr_CH','de_CH','en_US')
         SOCIAL_REASON_LANG = [
             (' SARL','Sàrl','fr_CH'),
+            (' SÀRL','Sàrl','fr_CH'),
             (' Sàrl','Sàrl','fr_CH'),
             (' Sarl','Sàrl','fr_CH'),
+            (' sarl','Sàrl','fr_CH'),
+            (' sàrl','Sàrl','fr_CH'),
+            (' S.A.R.L','Sàrl','fr_CH'),
             (' GMBH','Sàrl','de_CH'),
             (' GmbH','Sàrl','de_CH'),
+            (' gmbh','Sàrl','de_CH'),
+            (' .SA','SA','fr_CH'),
+            (' S.A','SA','fr_CH'),
+            (' A.G','SA','de_CH'),
+            (' s.a','SA','fr_CH'),
+            (' a.g','SA','de_CH'),
             (' SA','SA','fr_CH'),
             (' AG','SA','de_CH'),
+            (' sa','SA','fr_CH'),
+            (' Sa','SA','fr_CH'),
+            (' ag','SA','de_CH'),
+            (' Ag','SA','de_CH'),       
         ]
 
         to_process = self.search([('social_reason_id','=',False),('is_company','=',True),('comment','ilike','Origin Name | ')])
@@ -124,6 +138,7 @@ class ResPartner(models.Model):
                 if conf[0] in name: #we have found a match
                     name = name.replace(conf[0],'')
                     comp.name = name
+                    comp.lang = conf[2]
                     comp.social_reason_id = self.env['res.partner.social.reason'].search([('name','=',conf[1])],limit=1)
                     comp._onchange_social_reason_id()
                     _logger.info("{} updated in {}, social reason {}".format(name,comp.name,comp.social_reason_id.name))
