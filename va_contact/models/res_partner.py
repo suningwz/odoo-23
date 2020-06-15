@@ -20,6 +20,20 @@ class ResPartner(models.Model):
         comodel_name='res.partner.social.reason',
     )
 
+    generic_search = fields.Char(
+        compute = '_compute_generic_search',
+        store=True,
+        index=True,
+    )
+
+    @api.depends('display_name','company_group_id','company_group_id.name','email')
+    def _compute_generic_search(self):
+        for rec in self:
+            search_string = rec.display_name
+            search_string += rec.company_group_id.name if rec.company_group_id else ''
+            search_string += rec.email if rec.email else ''
+            rec.generic_search = search_string
+
     @api.onchange('lastname')
     def _onchange_lastname(self):
         #For individuals, we force the lastname in capital
@@ -50,7 +64,7 @@ class ResPartner(models.Model):
                 prev = self._origin
                 prev_social_reason = (" " + self.with_context(lang=prev.lang).social_reason_id.name)
                 social_reason = (" " + self.with_context(lang=self.lang).social_reason_id.name)
-                _logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
+                #_logger.info("Prev {} | New {}".format(prev_social_reason,social_reason))
                 self.name = self.name.split(prev_social_reason)[0] + social_reason
             else:
                 pass
@@ -94,11 +108,56 @@ class ResPartner(models.Model):
             found = string.lower().find(search.lower()) 
             if found > 0:
                 output = string[:found-1] + string[found+len(search):]
-                _logger.info("{} found in {} output {}".format(search,string,output))
+                #_logger.info("{} found in {} output {}".format(search,string,output))
                 return output
             else:
-                _logger.info("{} not found in {}".format(search,string))
+                #_logger.info("{} not found in {}".format(search,string))
                 return string
         else:
             return string
+    
+    @api.model
+    def name_to_social_reason(self):
+        #format (string to search, social reason name in fr_CH, lang)
+        SEARCH_LANG = ('fr_CH','de_CH','en_US')
+        SOCIAL_REASON_LANG = [
+            (' SARL','Sàrl','fr_CH'),
+            (' SÀRL','Sàrl','fr_CH'),
+            (' Sàrl','Sàrl','fr_CH'),
+            (' Sarl','Sàrl','fr_CH'),
+            (' sarl','Sàrl','fr_CH'),
+            (' sàrl','Sàrl','fr_CH'),
+            (' S.A.R.L','Sàrl','fr_CH'),
+            (' GMBH','Sàrl','de_CH'),
+            (' GmbH','Sàrl','de_CH'),
+            (' gmbh','Sàrl','de_CH'),
+            (' .SA','SA','fr_CH'),
+            (' S.A','SA','fr_CH'),
+            (' A.G','SA','de_CH'),
+            (' s.a','SA','fr_CH'),
+            (' a.g','SA','de_CH'),
+            (' SA','SA','fr_CH'),
+            (' AG','SA','de_CH'),
+            (' sa','SA','fr_CH'),
+            (' Sa','SA','fr_CH'),
+            (' ag','SA','de_CH'),
+            (' Ag','SA','de_CH'),       
+        ]
+
+        to_process = self.search([('social_reason_id','=',False),('is_company','=',True),('comment','ilike','Origin Name | ')])
+        for comp in to_process:
+            name = comp.comment[14:]
+            name = name.split('\n')[0]#we keep only the 1st line if any
+            for conf in SOCIAL_REASON_LANG:
+                if conf[0] in name: #we have found a match
+                    name = name.replace(conf[0],'')
+                    comp.name = name
+                    comp.lang = conf[2]
+                    comp.social_reason_id = self.env['res.partner.social.reason'].search([('name','=',conf[1])],limit=1)
+                    comp._onchange_social_reason_id()
+                    _logger.info("{} updated in {}, social reason {}".format(name,comp.name,comp.social_reason_id.name))
+                    break
+                else:
+                    pass
+
 
