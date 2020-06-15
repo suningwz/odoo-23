@@ -119,6 +119,7 @@ class ResPartner(models.Model):
         to_process = self.search([('social_reason_id','=',False),('is_company','=',True),('comment','ilike','Origin Name | ')])
         for comp in to_process:
             name = comp.comment[14:]
+            name = name.split('\n')[0]#we keep only the 1st line if any
             for conf in SOCIAL_REASON_LANG:
                 if conf[0] in name: #we have found a match
                     name = name.replace(conf[0],'')
