@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+    <!-- Modification of Search View for company group part -->
+    <record model="ir.ui.view" id="view_order_form">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">False</attribute>
+            </xpath>  
+            
+        </field>
+    </record>
+
+  </data>
+</odoo>
