@@ -7,12 +7,7 @@ class Project(models.Model):
     _name = "project.project"
     _inherit = [
         'project.project',
-        'portal.mixin',
-        'mail.alias.mixin',
-        'mail.thread',
-        'mail.thread.cc',
         'mail.activity.mixin',
-        'rating.parent.mixin',
         ]
 
 #_inherit = ['portal.mixin', 'mail.thread.cc', 'mail.activity.mixin', 'rating.mixin']
