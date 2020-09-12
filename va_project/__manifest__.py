@@ -3,24 +3,28 @@
     'name': "va_project",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Vertical-Access Project customs""",
 
     'description': """
-        Long description of module's purpose
+        Vertical-Access Project customs
     """,
 
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'author': "Vertical Access Sàrl",
+    'website': "http://www.vertical-access.ch",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Uncategorized',
+    'category': 'Vertical-Access',
     'version': '0.1',
 
+
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': [
+        'base',
+        'project',
+        'project_task_default_stage',
+        ],
 
     # always loaded
     'data': [

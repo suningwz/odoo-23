@@ -6,7 +6,7 @@
         Vertical-Access Sales customs""",
 
     'description': """
-        Long description of module's purpose
+        Vertical-Access Sales customs
     """,
 
     'author': "Vertical Access Sàrl",
