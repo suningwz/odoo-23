@@ -10,5 +10,3 @@ class Project(models.Model):
         'mail.activity.mixin',
         ]
 
-#_inherit = ['portal.mixin', 'mail.thread.cc', 'mail.activity.mixin', 'rating.mixin']
-#_inherit = ['portal.mixin', 'mail.alias.mixin', 'mail.thread', 'rating.parent.mixin']
