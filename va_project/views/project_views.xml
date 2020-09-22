@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_order_form">
+        <field name="name">project.project.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='message_follower_ids']" position="after">
+              <field name="activity_ids" widget="mail_activity"/>
+              <field name="message_ids" widget="mail_thread"/>
+                <!--
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                -->
+            </xpath>  
+            
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="project_project_view_form_simplified_footer">
+        <field name="name">project.project.view.form.simplified</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified_footer"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='name']" position="after">
+              <field name="type_id" options="{'no_create': True,'no_create_edit': True}"/>
+                
+            </xpath>  
+            
+        </field>
+    </record>
+
+  </data>
+</odoo>
