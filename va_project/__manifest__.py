@@ -16,12 +16,13 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Vertical-Access',
-    'version': '0.8',
+    'version': '0.8.1',
 
 
     # any module necessary for this one to work correctly
     'depends': [
         'base',
+        'sale',
         'project',
         'project_task_default_stage',
         'project_category',
