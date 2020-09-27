@@ -26,12 +26,16 @@ class SaleOrder(models.Model):
         vals['name'] = "{} | {}".format(vals['seq_ref'],vals['name'])
         result = super(SaleOrder, self).create(vals)
         return result
+
+class SaleOrderLine(models.Model):
+
+    _inherit = "sale.order.line"
     
     #we override this because we don't want the price to be updated anymore when we change the ordered qty
     #@api.onchange('product_uom', 'product_uom_qty')
     @api.onchange('product_uom')
     def product_uom_change(self):
-        super(SaleOrder, self).product_uom_change()
+        super(SaleOrderLine, self).product_uom_change()
         """if not self.product_uom or not self.product_id:
             self.price_unit = 0.0
             return
