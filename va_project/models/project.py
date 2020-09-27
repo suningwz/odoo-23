@@ -2,6 +2,9 @@
 
 from odoo import models, fields, api, _
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class Project(models.Model):
 
     _name = "project.project"
@@ -12,6 +15,7 @@ class Project(models.Model):
 
     @api.model
     def create(self, vals):
+        _logger.info("PROJECT CREATE {}".format(vals))
         # we grab some custom values from the order
         vals = self._get_order_info(vals)
         # we grab the related task types defined as default
