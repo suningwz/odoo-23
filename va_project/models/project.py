@@ -37,6 +37,6 @@ class Project(models.Model):
 
 class Task(models.Model):
     _inherit = "project.task"
-    _order = "priority desc, sequence desc, id desc"
+    _order = "priority desc, sequence, id"
 
 
