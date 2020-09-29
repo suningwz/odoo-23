@@ -35,4 +35,8 @@ class Project(models.Model):
         
         return vals
 
+class Task(models.Model):
+    _inherit = "project.task"
+    _order = "priority desc, sequence desc, id desc"
+
 
