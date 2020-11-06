@@ -13,6 +13,10 @@ class Project(models.Model):
         'mail.activity.mixin',
         ]
 
+    allow_timesheet_timer = fields.Boolean(
+        default=True,
+    )
+
     @api.model
     def create(self, vals):
         _logger.info("PROJECT CREATE {}".format(vals))
