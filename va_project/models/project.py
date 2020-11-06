@@ -13,9 +13,6 @@ class Project(models.Model):
         'mail.activity.mixin',
         ]
 
-    allow_timesheet_timer = fields.Boolean(
-        default=True,
-    )
 
     @api.model
     def create(self, vals):
@@ -27,6 +24,8 @@ class Project(models.Model):
         stages = self.env["project.task.type"].search([("case_default", "=", True),("default_project_type_id", "=", project_type_id)])
         if stages:
             vals['type_ids'] = [(6,0,stages.ids)]
+        #change some default values
+        vals['allow_timesheet_timer'] = True
         
         return super(Project, self).create(vals)
     
