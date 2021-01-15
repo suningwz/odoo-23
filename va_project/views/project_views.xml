@@ -28,7 +28,7 @@
         <field name="arch" type="xml">
             
             <xpath expr="//field[@name='name']" position="after">
-              <field name="type_id" options="{'no_create': True,'no_create_edit': True}"/>
+              <field name="type_id" options="{'no_create': True,'no_create_edit': True}" required="1"/>
                 
             </xpath>  
             
