@@ -55,9 +55,9 @@
             </field>
 
             <!-- Fields we add to the view -->
-            <label name='address_name' position="before">
+            <field name='type' position="after">
               <field name='social_reason_id' attrs="{'invisible':[('company_type','=','person')],'required':[('company_type','=','company')]}"/>
-            </label>
+            </field>
 
             <field name='vat' position="after">
               <field name='company_id' string="VA-GROUP" required="1"/>
