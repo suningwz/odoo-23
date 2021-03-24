@@ -23,7 +23,8 @@ class SaleOrder(models.Model):
         else:
             vals['seq_ref'] = self.env['ir.sequence'].next_by_code('sale.order', sequence_date=seq_date) or _('New')
 
-        vals['name'] = "{} | {}".format(vals['seq_ref'],vals['name'])
+        if 'name' in vals:
+            vals['name'] = "{} | {}".format(vals['seq_ref'],vals['name'])
         result = super(SaleOrder, self).create(vals)
         return result
 
