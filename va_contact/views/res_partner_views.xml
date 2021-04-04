@@ -42,7 +42,7 @@
     </record>
 
     <!-- Modification of Partner -->
-    <record model="ir.ui.view" id="view_partner_form">
+    <record model="ir.ui.view" id="view_partner_form_va">
         <field name="name">res.partner.form.v_a</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
