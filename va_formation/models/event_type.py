@@ -13,3 +13,15 @@ class EventType(models.Model):
             ('sst','SST'),
             ('technique','Technique'),],
     )
+
+    description = fields.Text()
+    responsible_id = fields.Many2one(
+        comodel_name = 'res.partner',
+    )
+
+    image = fields.Image()
+
+    objectives = fields.Html()
+    requirements = fields.Html()
+
+    price = fields.Float()
