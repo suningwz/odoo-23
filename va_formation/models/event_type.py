@@ -18,6 +18,18 @@ class EventType(models.Model):
     responsible_id = fields.Many2one(
         comodel_name = 'res.partner',
     )
+    responsible_info = fields.Text(
+        compute = '_compute_responsible_info',
+        store = True,
+    )
+
+    @api.depends('responsible_id')
+    def _compute_responsible_info(self):
+        for type in self:
+            if type.responsible_id:
+                type.responsible_info = '{}\n{}\n{}\n{}'.format(type.name,type.title,type.phone,type.email)
+            else:
+                type.responsible_info = 'à définir'
 
     image = fields.Image()
 

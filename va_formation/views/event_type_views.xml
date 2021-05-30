@@ -15,6 +15,7 @@
                   <field name="subtitle"/>
                   <field name="description"/>
                   <field name="responsible_id"/>
+                  <field name="responsible_info"/>
                   <field name="price_info"/>
               </group>
               <group>
