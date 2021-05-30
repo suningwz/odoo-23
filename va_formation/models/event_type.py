@@ -13,7 +13,7 @@ class EventType(models.Model):
             ('sst','SST'),
             ('technique','Technique'),],
     )
-
+    subtitle = fields.Text()
     description = fields.Text()
     responsible_id = fields.Many2one(
         comodel_name = 'res.partner',
