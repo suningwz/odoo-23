@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
 
         <div class="oe_title" position="after">
+            <field name="active"/>
             <h2>Word Press Info</h2>
             <group>
               <group>

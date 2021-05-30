@@ -7,7 +7,7 @@ class EventType(models.Model):
 
     _inherit = "event.type"
 
-    active = fields.Boolean()
+    active = fields.Boolean(default=True)
     category = fields.Selection(
         selection = [
             ('architecture','Architecture'),
