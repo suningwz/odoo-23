@@ -14,7 +14,7 @@
                   <field name="category"/>
                   <field name="description"/>
                   <field name="responsible_id"/>
-                  <field name="price"/>
+                  <field name="price_info"/>
               </group>
               <group>
                   <field name="image" widget="image"/>

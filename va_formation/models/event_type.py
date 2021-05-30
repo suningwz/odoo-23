@@ -24,4 +24,4 @@ class EventType(models.Model):
     objectives = fields.Html()
     requirements = fields.Html()
 
-    price = fields.Float()
+    price_info = fields.Html()
