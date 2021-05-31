@@ -8,7 +8,6 @@
         <field name="arch" type="xml">
 
         <div class="oe_title" position="after">
-            <field name="active"/>
             <h2>Word Press Info</h2>
             <group>
               <group>
@@ -17,7 +16,8 @@
                   <field name="description"/>
                   <field name="responsible_id"/>
                   <field name="responsible_info"/>
-                  <field name="price_info"/>
+                  <field name="price_single"/>
+                  <field name="price_group"/>
               </group>
               <group>
                   <field name="image" widget="image"/>

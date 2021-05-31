@@ -34,7 +34,12 @@ class EventType(models.Model):
 
     image = fields.Image()
 
-    objectives = fields.Html()
-    requirements = fields.Html()
+    objectives = fields.Text(
+        help = "Use || as separator to generate a new bullet in WordPress"
+    )
+    requirements = fields.Text(
+        help = "Use || as separator to generate a new bullet in WordPress"
+    )
 
-    price_info = fields.Html()
+    price_single = fields.Float()
+    price_group = fields.Float()
