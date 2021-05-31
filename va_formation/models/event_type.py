@@ -28,7 +28,7 @@ class EventType(models.Model):
     def _compute_responsible_info(self):
         for type in self:
             if type.responsible_id:
-                type.responsible_info = '{}\n{}\n{}\n{}'.format(type.responsible_id.name,type.responsible_id.function,type.responsible_id.phone,type.responsible_id.email)
+                type.responsible_info = '{}\n{}\n{}\n{}'.format(type.responsible_id.name,type.responsible_id.function,type.responsible_id.mobile or type.responsible_id.phone,type.responsible_id.email)
             else:
                 type.responsible_info = 'à définir'
 
