@@ -12,6 +12,7 @@
             <group>
               <group>
                   <field name="category"/>
+                  <field name="parent_id"/>
                   <field name="subtitle"/>
                   <field name="description"/>
                   <field name="responsible_id"/>
@@ -30,5 +31,16 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="view_event_form">
+        <field name="name">event.form</field>
+        <field name="model">event.event</field>
+        <field name="inherit_id" ref="event.view_event_form"/>
+        <field name="arch" type="xml">
+
+        <field name="event_type_id" position="after">
+          <field name="reporting_event_type_id"/>
+        </field>
+
+    </record>
   </data>
 </odoo>
