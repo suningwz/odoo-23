@@ -8,7 +8,7 @@ class EventEvent(models.Model):
     _inherit = "event.event"
 
     reporting_event_type_id = fields.Many2one(
-        comodel_name = "even_type",
+        comodel_name = "event.type",
         compute = "_compute_reporting_event_type",
         store = True,
         string = "Reporting Template",

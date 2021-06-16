@@ -10,7 +10,7 @@ class EventType(models.Model):
     # we create a parent hierarchy in order to allow multiple 
     # communication templates regrouped within the same type in the website
     parent_id = fields.Many2one(
-        comodel_name = "even_type",
+        comodel_name = "even.type",
         domain = [('parent_id','=',False)],
     )
     active = fields.Boolean(default=True)
