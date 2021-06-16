@@ -37,10 +37,12 @@
         <field name="inherit_id" ref="event.view_event_form"/>
         <field name="arch" type="xml">
 
-        <field name="event_type_id" position="after">
-          <field name="reporting_event_type_id"/>
-        </field>
+          <field name="event_type_id" position="after">
+            <field name="reporting_event_type_id"/>
+          </field>
 
+        </field>
     </record>
+
   </data>
 </odoo>
