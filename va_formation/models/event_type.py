@@ -17,10 +17,10 @@ class EventType(models.Model):
     is_published = fields.Boolean(default=False)
     category = fields.Selection(
         selection = [
-            ('architecture','Architecture'),
-            ('sst','SST'),
-            ('technique','Technique'),
-            ('03','Test'),],
+            ('02','Architecture'),
+            ('01','SST'),
+            ('03','Technique'),
+            ],
     )
     subtitle = fields.Text()
     description = fields.Text()
