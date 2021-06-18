@@ -19,7 +19,8 @@ class EventType(models.Model):
         selection = [
             ('architecture','Architecture'),
             ('sst','SST'),
-            ('technique','Technique'),],
+            ('technique','Technique'),
+            ('03','Test'),],
     )
     subtitle = fields.Text()
     description = fields.Text()
