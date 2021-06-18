@@ -13,7 +13,7 @@ class EventType(models.Model):
         comodel_name = "event.type",
         domain = [('parent_id','=',False)],
     )
-    active = fields.Boolean(default=True)
+    is_published = fields.Boolean(default=False)
     category = fields.Selection(
         selection = [
             ('architecture','Architecture'),

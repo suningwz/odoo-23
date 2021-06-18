@@ -21,6 +21,7 @@
                   <field name="price_group"/>
               </group>
               <group>
+                  <field name="is_published" widget='boolean_toggle'/>
                   <field name="image" widget="image"/>
                   <field name="objectives"/>
                   <field name="requirements"/>
