@@ -31,6 +31,7 @@ class EventType(models.Model):
         compute = '_compute_responsible_info',
         store = True,
     )
+    short_name = fields.Char()
 
     @api.depends('responsible_id','responsible_id.name','responsible_id.function','responsible_id.mobile','responsible_id.phone','responsible_id.email')
     def _compute_responsible_info(self):
