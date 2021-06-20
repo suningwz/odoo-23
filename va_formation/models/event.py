@@ -21,6 +21,11 @@ class EventEvent(models.Model):
         store = True,
     )
 
+    city = fields.Char(
+        related = 'address_id.city',
+        store = True,
+    )
+
     @api.depends('event_type_id','event_type_id.parent_id')
     def _compute_reporting_event_type(self):
         for event in self:
