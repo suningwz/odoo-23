@@ -71,16 +71,16 @@ class Document(models.Model):
         decoded_data = base64.b64decode(self.attachment_id.datas)
         try:
             data = io.StringIO(decoded_data.decode("utf-8"))
-            _logger.info("WINBIZ UTF data")
+            #_logger.info("WINBIZ UTF data")
         except:
             data = io.StringIO(decoded_data.decode("latin-1"))
-            _logger.info("WINBIZ latin data")
+            #_logger.info("WINBIZ latin data")
         data.seek(0)
         file_reader = []
         csv_reader = csv.reader(data, delimiter=';')
-        _logger.info("WINBIZ csv.reader")
+        #_logger.info("WINBIZ csv.reader")
         file_reader.extend(csv_reader)
-        _logger.info("WINBIZ file.reader")
+        #_logger.info("WINBIZ file.reader")
         return file_reader
 
     def process_winbiz(self,data=False,force=False):
@@ -90,30 +90,31 @@ class Document(models.Model):
             count = 0
 
             for item in data:
+                #_logger.info("WINBIZ {}".format(item))
                 count += 1
                 has_subcontact = False
-                name = WB_ADDRESS['full_name'] 
+                name = item[WB_ADDRESS['full_name']] 
 
-                search_name = "{} {}".format(WB_ADDRESS['firstname'],WB_ADDRESS['lastname']) if WB_ADDRESS['firstname'] else WB_ADDRESS['company_name']
+                search_name = "{} {}".format(item[WB_ADDRESS['firstname']],item[WB_ADDRESS['lastname']]) if item[WB_ADDRESS['firstname']] else item[WB_ADDRESS['company_name']]
                 
                 existing = self.env['res.partner'].search([('comment','ilike',search_name)],limit=1)
                 if not existing or force:
                     vals = {
                         'company_id': self.env.ref("base.main_company").id,
-                        'street':WB_ADDRESS['street'],
-                        'street2':WB_ADDRESS['street2'],
-                        'zip':WB_ADDRESS['zip'],
-                        'city':WB_ADDRESS['city'],
-                        'email':WB_ADDRESS['email'],
-                        'website':WB_ADDRESS['website'],
-                        'vat':WB_ADDRESS['vat'],
-                        'customer_rank':WB_ADDRESS['customer_rank'],
-                        'supplier_rank':WB_ADDRESS['supplier_rank'],
+                        'street':item[WB_ADDRESS['street']],
+                        'street2':item[WB_ADDRESS['street2']],
+                        'zip':item[WB_ADDRESS['zip']],
+                        'city':item[WB_ADDRESS['city']],
+                        'email':item[WB_ADDRESS['email']],
+                        'website':item[WB_ADDRESS['website']],
+                        'vat':item[WB_ADDRESS['vat']],
+                        'customer_rank':item[WB_ADDRESS['customer_rank']],
+                        'supplier_rank':item[WB_ADDRESS['supplier_rank']],
                         'comment':'Origin Name | {}'.format(name),
                     }
-                    vals.update(self.get_regional_info(WB_ADDRESS['state'],WB_ADDRESS['country']))
+                    vals.update(self.get_regional_info(item[WB_ADDRESS['state']],item[WB_ADDRESS['country']]))
                     #we try to guess if this is a company or not
-                    if name == "{} {}".format(WB_ADDRESS['lastname'],WB_ADDRESS['firstname']):
+                    if name == "{} {}".format(item[WB_ADDRESS['lastname']],item[WB_ADDRESS['firstname']]):
                         #in this case, this is a person
                         vals.update({
                             'is_company': False,
@@ -138,18 +139,18 @@ class Document(models.Model):
                         existing = self.env['res.partner'].create(vals)
                         _logger.info("Contact Created {} | {}/{}".format(name,count,len(data)))
 
-                    if WB_ADDRESS['firstname'] and has_subcontact:
-                        existing2 = self.env['res.partner'].search([('comment','ilike','{} {}'.format(WB_ADDRESS['firstname'],WB_ADDRESS['lastname'])),('parent_id','=',existing.id)],limit=1)
+                    if item[WB_ADDRESS['firstname']] and has_subcontact:
+                        existing2 = self.env['res.partner'].search([('comment','ilike','{} {}'.format(item[WB_ADDRESS['firstname']],item[WB_ADDRESS['lastname']])),('parent_id','=',existing.id)],limit=1)
                         vals2 = {
                             'company_type': 'person',
                             'company_id': self.env.ref("base.main_company").id,
                             'parent_id': existing.id,
                             'type':'contact',
-                            'firstname':WB_ADDRESS['firstname'],
-                            'lastname': WB_ADDRESS['lastname'],
-                            'customer_rank':WB_ADDRESS['customer_rank'],
-                            'supplier_rank':WB_ADDRESS['supplier_rank'],
-                            'comment':'Origin Name | {} {}'.format(WB_ADDRESS['lastname'],WB_ADDRESS['firstname']),
+                            'firstname':item[WB_ADDRESS['firstname']],
+                            'lastname': item[WB_ADDRESS['lastname']],
+                            'customer_rank':item[WB_ADDRESS['customer_rank']],
+                            'supplier_rank':item[WB_ADDRESS['supplier_rank']],
+                            'comment':'Origin Name | {} {}'.format(item[WB_ADDRESS['lastname']],item[WB_ADDRESS['firstname']]),
                         }
                         if existing2:
                             existing2.write(vals2)
