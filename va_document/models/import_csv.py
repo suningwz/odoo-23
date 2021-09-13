@@ -60,7 +60,7 @@ class Document(models.Model):
                 elif self.env.ref('va_document.doctag_import_contact_pd_person') in doc.tag_ids:
                     doc.process_pipedrive_person(doc.csv_decode(';'),True)
                 elif self.env.ref('va_document.doctag_import_contact_winbiz') in doc.tag_ids:
-                    _logger.info("WINBIZ {}".format(WB_ADDRESS))
+                    #_logger.info("WINBIZ {}".format(WB_ADDRESS))
                     doc.process_winbiz(doc.csv_decode(';'),True)
                 else:
                     pass
@@ -69,10 +69,13 @@ class Document(models.Model):
     def csv_decode(self,delimiter=','):
         self.ensure_one()
         decoded_data = base64.b64decode(self.attachment_id.datas)
+        _logger.info("WINBIZ decoded data")
         try:
             data = io.StringIO(decoded_data.decode("utf-8"))
+            _logger.info("WINBIZ UTF data")
         except:
             data = io.StringIO(decoded_data.decode("latin-1"))
+            _logger.info("WINBIZ latin data")
         data.seek(0)
         file_reader = []
         csv_reader = csv.reader(data, delimiter=';')
