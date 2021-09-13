@@ -35,6 +35,8 @@ WB_ADDRESS = {
     'state':14,
     'country':8,
     'old_id':1,
+    'customer_rank':16,
+    'supplier_rank':17,
     }
 
 class ResPartner(models.Model):
@@ -100,6 +102,8 @@ class Document(models.Model):
                         'email':WB_ADDRESS['email'],
                         'website':WB_ADDRESS['website'],
                         'vat':WB_ADDRESS['vat'],
+                        'customer_rank':WB_ADDRESS['customer_rank'],
+                        'supplier_rank':WB_ADDRESS['supplier_rank'],
                         'comment':'Origin Name | {}'.format(name),
                     }
                     vals.update(self.get_regional_info(WB_ADDRESS['state'],WB_ADDRESS['country']))
@@ -138,6 +142,8 @@ class Document(models.Model):
                             'type':'contact',
                             'firstname':WB_ADDRESS['firstname'],
                             'lastname': WB_ADDRESS['lastname'],
+                            'customer_rank':WB_ADDRESS['customer_rank'],
+                            'supplier_rank':WB_ADDRESS['supplier_rank'],
                             'comment':'Origin Name | {} {}'.format(WB_ADDRESS['lastname'],WB_ADDRESS['firstname']),
                         }
                         if existing2:
