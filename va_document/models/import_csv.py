@@ -18,6 +18,30 @@ SOCIAL_REASON_LANG = [
     (' GMBH','SARL','de_CH'),
     (' GmbH','SARL','de_CH'),
 ]
+WB_ADDRESS = {
+    'full_name':0,
+    'company_name':2,
+    'firstname':4,
+    'lastname':3,
+    'street':5,
+    'street2':6,
+    'zip':15,
+    'city':7,
+    'email':11,
+    'website':12,
+    'phone':9,
+    'mobile':10,
+    'vat':13,
+    'state':14,
+    'country':8,
+    'old_id':1,
+    }
+
+class ResPartner(models.Model):
+
+    _inherit = "res.partner"
+
+    old_id = fields.Char()
 
 class Document(models.Model):
     _inherit = 'documents.document'
@@ -61,24 +85,26 @@ class Document(models.Model):
             for item in data:
                 count += 1
                 has_subcontact = False
-                name = item[0]  
+                name = WB_ADDRESS['full_name'] 
+
+                search_name = "{} {}".format(WB_ADDRESS['firstname'],WB_ADDRESS['lastname']) if WB_ADDRESS['firstname'] else WB_ADDRESS['company_name']
                 
-                existing = self.env['res.partner'].search([('comment','ilike',name)],limit=1)
+                existing = self.env['res.partner'].search([('comment','ilike',search_name)],limit=1)
                 if not existing or force:
                     vals = {
                         'company_id': self.env.ref("base.main_company").id,
-                        'street':item[4],
-                        'street2':item[5],
-                        'zip':item[6],
-                        'city':item[7],
-                        'email':item[12],
-                        'website':item[13],
-                        'vat':item[15],
+                        'street':WB_ADDRESS['street'],
+                        'street2':WB_ADDRESS['street2'],
+                        'zip':WB_ADDRESS['zip'],
+                        'city':WB_ADDRESS['city'],
+                        'email':WB_ADDRESS['email'],
+                        'website':WB_ADDRESS['website'],
+                        'vat':WB_ADDRESS['vat'],
                         'comment':'Origin Name | {}'.format(name),
                     }
-                    vals.update(self.get_regional_info(False,item[8]))
+                    vals.update(self.get_regional_info(WB_ADDRESS['state'],WB_ADDRESS['country']))
                     #we try to guess if this is a company or not
-                    if name == "{} {}".format(item[2],item[3]):
+                    if name == "{} {}".format(WB_ADDRESS['lastname'],WB_ADDRESS['firstname']):
                         #in this case, this is a person
                         vals.update({
                             'is_company': False,
@@ -103,16 +129,16 @@ class Document(models.Model):
                         existing = self.env['res.partner'].create(vals)
                         _logger.info("Contact Created {} | {}/{}".format(name,count,len(data)))
 
-                    if item[2] and has_subcontact:
-                        existing2 = self.env['res.partner'].search([('comment','ilike','{} {}'.format(item[1],item[2])),('parent_id','=',existing.id)],limit=1)
+                    if WB_ADDRESS['firstname'] and has_subcontact:
+                        existing2 = self.env['res.partner'].search([('comment','ilike','{} {}'.format(WB_ADDRESS['firstname'],WB_ADDRESS['lastname'])),('parent_id','=',existing.id)],limit=1)
                         vals2 = {
                             'company_type': 'person',
                             'company_id': self.env.ref("base.main_company").id,
                             'parent_id': existing.id,
                             'type':'contact',
-                            'firstname':item[2],
-                            'lastname': item[1],
-                            'comment':'Origin Name | {} {}'.format(item[1],item[2]),
+                            'firstname':WB_ADDRESS['firstname'],
+                            'lastname': WB_ADDRESS['lastname'],
+                            'comment':'Origin Name | {} {}'.format(WB_ADDRESS['lastname'],WB_ADDRESS['firstname']),
                         }
                         if existing2:
                             existing2.write(vals2)
