@@ -69,7 +69,6 @@ class Document(models.Model):
     def csv_decode(self,delimiter=','):
         self.ensure_one()
         decoded_data = base64.b64decode(self.attachment_id.datas)
-        _logger.info("WINBIZ decoded data")
         try:
             data = io.StringIO(decoded_data.decode("utf-8"))
             _logger.info("WINBIZ UTF data")
@@ -79,7 +78,9 @@ class Document(models.Model):
         data.seek(0)
         file_reader = []
         csv_reader = csv.reader(data, delimiter=';')
+        _logger.info("WINBIZ csv.reader")
         file_reader.extend(csv_reader)
+        _logger.info("WINBIZ file.reader")
         return file_reader
 
     def process_winbiz(self,data=False,force=False):
