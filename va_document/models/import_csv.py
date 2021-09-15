@@ -133,6 +133,7 @@ class Document(models.Model):
                             'company_type': 'company',
                             'name': item[WB_ADDRESS['company_name']],
                         })
+                        _logger.info(vals)
                         vals.update(self.pipedrive_company_name(name))
 
                     if existing:
