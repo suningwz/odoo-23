@@ -108,8 +108,11 @@ class Document(models.Model):
                         'email':item[WB_ADDRESS['email']],
                         'website':item[WB_ADDRESS['website']],
                         'vat':item[WB_ADDRESS['vat']],
+                        'phone':item[WB_ADDRESS['phone']],
+                        'mobile':item[WB_ADDRESS['mobile']],
                         'customer_rank':item[WB_ADDRESS['customer_rank']],
                         'supplier_rank':item[WB_ADDRESS['supplier_rank']],
+                        'old_id':item[WB_ADDRESS['old_id']],
                         'comment':'Origin Name | {}'.format(name),
                     }
                     vals.update(self.get_regional_info(item[WB_ADDRESS['state']],item[WB_ADDRESS['country']]))
@@ -128,6 +131,7 @@ class Document(models.Model):
                         vals.update({
                             'is_company': True,
                             'company_type': 'company',
+                            'name': item[WB_ADDRESS['company_name']],
                         })
                         vals.update(self.pipedrive_company_name(name))
 
