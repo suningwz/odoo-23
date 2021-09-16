@@ -3,7 +3,7 @@
 
     <record model="ir.ui.view" id="website_event.event_description_full">
         <field name="name">Event Description</field>
-        <field name="inherit_id" ref="website_event.event_description_full"/>
+        <!--<field name="inherit_id" ref="website_event.event_description_full"/>-->
         <field name="arch" type="xml">
 
           <t name="Event Description" track="1" t-name="website_event.event_description_full">
