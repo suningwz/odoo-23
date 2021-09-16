@@ -16,7 +16,7 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Vertical-Access',
-    'version': '14.0.23',
+    'version': '14.0.24',
 
     # any module necessary for this one to work correctly
     'depends': [
@@ -29,6 +29,7 @@
     'data': [
         # 'security/ir.model.access.csv',
         'views/event_views.xml',
+        'views/web_views.xml',
         
     ],
    
