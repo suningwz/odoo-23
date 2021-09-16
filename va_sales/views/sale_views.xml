@@ -11,8 +11,16 @@
                 <attribute name="readonly">False</attribute>
             </xpath>  
 
+            
             <xpath position="before" expr="//field[@name='validity_date']">
-              <field name='company_id' string="VA-GROUP" required="1" options="{'no_create': True,'no_open': True}"/>
+              <xpath position="move" expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sales_person']/field[@name='company_id']"/>
+            </xpath>
+
+            <xpath position="attributes" expr="//form[1]/sheet[1]/group[@name='sale_header']/group[@name='order_details']/field[@name='company_id']">
+              <attribute name="attrs">{}</attribute>
+              <attribute name="force_save">True</attribute>
+              <attribute name="options">{"no_create":true,"no_open":true}</attribute>
+              <attribute name="string">VA-GROUP</attribute>
             </xpath>
             
         </field>
