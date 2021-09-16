@@ -11,10 +11,6 @@
                 <attribute name="readonly">False</attribute>
             </xpath>  
 
-            <xpath expr="//field[@name='company_id']" position="attributes">
-                <attribute name="invisible">True</attribute>
-            </xpath>
-
             <xpath position="before" expr="//field[@name='validity_date']">
               <field name='company_id' string="VA-GROUP" required="1" options="{'no_create': True,'no_open': True}"/>
             </xpath>
