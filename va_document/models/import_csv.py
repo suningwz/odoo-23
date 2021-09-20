@@ -18,6 +18,32 @@ SOCIAL_REASON_LANG = [
     (' GMBH','SARL','de_CH'),
     (' GmbH','SARL','de_CH'),
 ]
+WB_ADDRESS = {
+    'full_name':0,
+    'company_name':2,
+    'firstname':4,
+    'lastname':3,
+    'street':5,
+    'street2':6,
+    'zip':15,
+    'city':7,
+    'email':11,
+    'website':12,
+    'phone':9,
+    'mobile':10,
+    'vat':13,
+    'state':14,
+    'country':8,
+    'old_id':1,
+    'customer_rank':16,
+    'supplier_rank':17,
+    }
+
+class ResPartner(models.Model):
+
+    _inherit = "res.partner"
+
+    old_id = fields.Char()
 
 class Document(models.Model):
     _inherit = 'documents.document'
@@ -34,6 +60,7 @@ class Document(models.Model):
                 elif self.env.ref('va_document.doctag_import_contact_pd_person') in doc.tag_ids:
                     doc.process_pipedrive_person(doc.csv_decode(';'),True)
                 elif self.env.ref('va_document.doctag_import_contact_winbiz') in doc.tag_ids:
+                    #_logger.info("WINBIZ {}".format(WB_ADDRESS))
                     doc.process_winbiz(doc.csv_decode(';'),True)
                 else:
                     pass
@@ -44,12 +71,16 @@ class Document(models.Model):
         decoded_data = base64.b64decode(self.attachment_id.datas)
         try:
             data = io.StringIO(decoded_data.decode("utf-8"))
+            #_logger.info("WINBIZ UTF data")
         except:
             data = io.StringIO(decoded_data.decode("latin-1"))
+            #_logger.info("WINBIZ latin data")
         data.seek(0)
         file_reader = []
         csv_reader = csv.reader(data, delimiter=';')
+        #_logger.info("WINBIZ csv.reader")
         file_reader.extend(csv_reader)
+        #_logger.info("WINBIZ file.reader")
         return file_reader
 
     def process_winbiz(self,data=False,force=False):
@@ -59,68 +90,86 @@ class Document(models.Model):
             count = 0
 
             for item in data:
+                #_logger.info("WINBIZ {}".format(item))
                 count += 1
                 has_subcontact = False
-                name = item[0]  
-                
-                existing = self.env['res.partner'].search([('comment','ilike',name)],limit=1)
-                if not existing or force:
-                    vals = {
+
+                company_name = item[WB_ADDRESS['company_name']]
+                firstname = item[WB_ADDRESS['firstname']]
+                lastname = item[WB_ADDRESS['lastname']]
+                search_name = "{} {}".format(firstname,lastname)
+
+                #common dict
+                vals = {
                         'company_id': self.env.ref("base.main_company").id,
-                        'street':item[4],
-                        'street2':item[5],
-                        'zip':item[6],
-                        'city':item[7],
-                        'email':item[12],
-                        'website':item[13],
-                        'vat':item[15],
-                        'comment':'Origin Name | {}'.format(name),
+                        'street':item[WB_ADDRESS['street']],
+                        'street2':item[WB_ADDRESS['street2']],
+                        'zip':item[WB_ADDRESS['zip']],
+                        'city':item[WB_ADDRESS['city']],
+                        'email':item[WB_ADDRESS['email']],
+                        'website':item[WB_ADDRESS['website']],
+                        'vat':item[WB_ADDRESS['vat']],
+                        'phone':item[WB_ADDRESS['phone']],
+                        'mobile':item[WB_ADDRESS['mobile']],
+                        'customer_rank':item[WB_ADDRESS['customer_rank']],
+                        'supplier_rank':item[WB_ADDRESS['supplier_rank']],
+                        'old_id':item[WB_ADDRESS['old_id']],
+                        'comment':'Origin Name | {}'.format(item[WB_ADDRESS['full_name']]),
                     }
-                    vals.update(self.get_regional_info(False,item[8]))
-                    #we try to guess if this is a company or not
-                    if name == "{} {}".format(item[2],item[3]):
-                        #in this case, this is a person
+                vals.update(self.get_regional_info(item[WB_ADDRESS['state']],item[WB_ADDRESS['country']]))
+
+                #case 1 | individual contact only
+                if lastname and not company_name:
+                    existing = self.env['res.partner'].search([('comment','ilike',search_name)],limit=1)
+                    if not existing or force:
                         vals.update({
                             'is_company': False,
                             'company_type': 'person',
                             'type':'contact',
-                            'name': name,
+                            'firstname': firstname,
+                            'lastname':lastname,
                         })
-                    else:
-                        #we create two partners, one company and a related contact
-                        has_subcontact = True
+                
+                #case 2 | company
+                if company_name:
+                    existing = self.env['res.partner'].search([('comment','ilike',company_name)],limit=1)
+                    if not existing or force:
+                        vals.update(self.pipedrive_company_name(company_name))
                         vals.update({
-                            'is_company': True,
-                            'company_type': 'company',
-                        })
-                        vals.update(self.pipedrive_company_name(name))
+                                'is_company': True,
+                                'company_type': 'company',
+                            })
+                
+                #we create the 1st contact
+                if existing:
+                    existing.write(vals)
+                    _logger.info("Contact Updated {} | {}/{}".format(existing.name,count,len(data)))
+                    
+                else:
+                    existing = self.env['res.partner'].create(vals)
+                    _logger.info("Contact Created {} | {}/{}".format(existing.name,count,len(data)))
 
-                    if existing:
-                        existing.write(vals)
-                        _logger.info("Contact Updated {} | {}/{}".format(name,count,len(data)))
+                #company AND individual to create
+                if lastname and company_name:
+                    existing2 = self.env['res.partner'].search([('comment','ilike','{} {}'.format(item[WB_ADDRESS['firstname']],item[WB_ADDRESS['lastname']])),('parent_id','=',existing.id)],limit=1)
+                    vals2 = {
+                        'company_type': 'person',
+                        'company_id': self.env.ref("base.main_company").id,
+                        'parent_id': existing.id,
+                        'type':'contact',
+                        'firstname':firstname,
+                        'lastname': lastname,
+                        'customer_rank':item[WB_ADDRESS['customer_rank']],
+                        'supplier_rank':item[WB_ADDRESS['supplier_rank']],
+                        'comment':'Origin Name | {} {}'.format(lastname,firstname),
+                    }
+                    if existing2:
+                        existing2.write(vals2)
+                        _logger.info("Sub-Contact Updated {} | {}/{}".format(existing2.name,count,len(data)))
                         
                     else:
-                        existing = self.env['res.partner'].create(vals)
-                        _logger.info("Contact Created {} | {}/{}".format(name,count,len(data)))
-
-                    if item[2] and has_subcontact:
-                        existing2 = self.env['res.partner'].search([('comment','ilike','{} {}'.format(item[1],item[2])),('parent_id','=',existing.id)],limit=1)
-                        vals2 = {
-                            'company_type': 'person',
-                            'company_id': self.env.ref("base.main_company").id,
-                            'parent_id': existing.id,
-                            'type':'contact',
-                            'firstname':item[2],
-                            'lastname': item[1],
-                            'comment':'Origin Name | {} {}'.format(item[1],item[2]),
-                        }
-                        if existing2:
-                            existing2.write(vals2)
-                            _logger.info("Sub-Contact Updated {} | {}/{}".format(name,count,len(data)))
-                            
-                        else:
-                            existing2 = self.env['res.partner'].create(vals2)
-                            _logger.info("Sub-Contact Created {} | {}/{}".format(name,count,len(data)))
+                        existing2 = self.env['res.partner'].create(vals2)
+                        _logger.info("Sub-Contact Created {} | {}/{}".format(existing2.name,count,len(data)))
 
                         vals2.clear()
                         
