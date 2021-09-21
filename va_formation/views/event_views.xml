@@ -21,6 +21,7 @@
                   <field name="responsible_info"/>
                   <field name="price_single"/>
                   <field name="price_group"/>
+                  <field name="autonaming"/>
               </group>
               <group>
                   <field name="is_published" widget='boolean_toggle'/>
@@ -44,6 +45,7 @@
             <field name="short_name"/>
             <field name="reporting_event_type_id"/>
             <field name="is_private"/>
+            <field name="autonaming"/>
           </field>
 
         </field>

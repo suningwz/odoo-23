@@ -33,6 +33,9 @@ class EventType(models.Model):
     )
     short_name = fields.Char()
     doc_url = fields.Char()
+    autonaming = fields.Boolean(
+        help="If checked, related events will be automatically named based on template info and time/location."
+    )
 
     @api.depends('responsible_id','responsible_id.name','responsible_id.function','responsible_id.mobile','responsible_id.phone','responsible_id.email')
     def _compute_responsible_info(self):
