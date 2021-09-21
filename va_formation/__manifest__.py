@@ -30,6 +30,7 @@
         # 'security/ir.model.access.csv',
         'views/event_views.xml',
         'views/web_views.xml',
+        'views/web_templates.xml',
         
     ],
    
