@@ -44,9 +44,13 @@ class EventEvent(models.Model):
     def _autonaming(self):
         for event in self.filtered(lambda e: e.autonaming):
             if event.reporting_event_type_id:
-                event.name = "{} | {} ({})".format(event.reporting_event_type_id.name, event.date_begin.date(),event.address_id.name if event.address_id else "")
+                event.name = "{} - {}".format(event.reporting_event_type_id.short_name, event.date_begin.date())
+                event.subtitle = event.reporting_event_type_id.subtitle
+                event.description = event.reporting_event_type_id.description
             else:
                 event.name = "Not enough autonaming info."
+                event.subtitle = False
+                event.description = False
     
     @api.onchange('date_begin')
     def _onchange_date_begin(self):
