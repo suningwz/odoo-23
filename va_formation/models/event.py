@@ -44,8 +44,8 @@ class EventEvent(models.Model):
     def _autonaming(self):
         for event in self.filtered(lambda e: e.autonaming):
             if event.reporting_event_type_id:
-                event.name = "{} - {}".format(event.reporting_event_type_id.short_name, event.date_begin.date())
-                event.subtitle = event.reporting_event_type_id.subtitle
+                event.name = "{} | {}".format(event.reporting_event_type_id.short_name, event.date_begin.date())
+                event.subtitle = event.reporting_event_type_id.name
                 event.description = event.reporting_event_type_id.description
             else:
                 event.name = "Not enough autonaming info."
