@@ -18,6 +18,11 @@ class SaleOrder(models.Model):
     your_contact_id = fields.Many2one(
         comodel_name='res.partner',
     )
+    #we create the business unit in order to cope with the need of custom header on layouts
+    business_unit_id = fields.Many2one(
+        comodel_name='res.partner',
+        domain = [('is_company','=',True)],
+    )
     
 
     @api.model
