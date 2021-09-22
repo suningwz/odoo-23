@@ -23,6 +23,7 @@
         'base',
         'mail',
         'account',
+        'timesheet_grid',
         ],
 
     # always loaded

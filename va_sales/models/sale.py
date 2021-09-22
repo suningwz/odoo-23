@@ -7,10 +7,18 @@ class SaleOrder(models.Model):
 
     _inherit = "sale.order"
 
+    #we do custom numbering for our sales orders
     seq_ref = fields.Char(
         readonly=True,
         string= "Reference",
     )
+
+    #we create more employee/contact related fields in the sale order to cope with specific needs
+    # we create a dedicated contact on the client side, which is different of all existing addresses
+    your_contact_id = fields.Many2one(
+        comodel_name='res.partner',
+    )
+    
 
     @api.model
     def create(self, vals):
