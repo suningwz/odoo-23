@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <!-- Modification of Employee -->
+    <record model="ir.ui.view" id="view_employee_form">
+        <field name="name">hr.employee.form.v_a</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+
+            <field name='department_id' position="before">
+              <field name='short_name'/>
+            </field>
+            
+        </field>
+    </record>
+  </data>
+</odoo>
