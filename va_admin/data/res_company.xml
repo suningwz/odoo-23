@@ -7,8 +7,6 @@
 
     <record model="res.company" id="solution_company">
       <field name="name">VA-SOLUTIONS</field>
-      <field name="fiscalyear_last_day" eval="31"/>
-      <field name="fiscalyear_last_month" eval="12"/>
     </record>
 
     <record model="res.company" id="architecture_company">
