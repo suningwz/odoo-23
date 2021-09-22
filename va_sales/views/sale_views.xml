@@ -13,13 +13,13 @@
 
             <xpath position="after" expr="//field[@name='payment_term_id']">
               <xpath position="move" expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sales_person']/field[@name='client_order_ref']"/>
-              <field name='your_contact_id' domain="[('parent_id', '=', partner_id)]"/>
+              <field name='your_contact_id' domain="[('parent_id', '=', partner_id)]" options="{'no_create':true,'no_open':true}"/>
             </xpath>
             
             <xpath position="before" expr="//field[@name='validity_date']">
               <field name='id' invisible="1"/>
               <xpath position="move" expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sales_person']/field[@name='company_id']"/>
-              <field name='business_unit_id' domain="[('company_id.business_unit_ids', 'in', id)]"/>
+              <field name='business_unit_id' domain="[('company_id.business_unit_ids', 'in', id)]" options="{'no_create':true,'no_open':true}" string="Succursale"/>
               <xpath position="move" expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sales_person']/field[@name='user_id']"/>
             </xpath>
 

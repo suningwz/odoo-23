@@ -23,6 +23,14 @@ class SaleOrder(models.Model):
         comodel_name='res.partner',
         domain = [('is_company','=',True)],
     )
+
+    @api.onchange('company_id')
+    def _onchange_bu(self):
+        self.business_unit_id = False
+
+    @api.onchange('partner_id')
+    def _onchange_client(self):
+        self.your_contact_id = False
     
 
     @api.model
