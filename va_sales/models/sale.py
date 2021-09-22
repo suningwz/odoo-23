@@ -24,6 +24,11 @@ class SaleOrder(models.Model):
         domain = [('is_company','=',True)],
     )
 
+    business_unit_ids = fields.Many2many(
+        related='company_id.business_unit_ids',
+    )
+
+
     @api.onchange('company_id')
     def _onchange_bu(self):
         self.business_unit_id = False

@@ -17,9 +17,9 @@
             </xpath>
             
             <xpath position="before" expr="//field[@name='validity_date']">
-              <field name='id' invisible="1"/>
+              <field name='business_unit_ids' invisible="1"/>
               <xpath position="move" expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sales_person']/field[@name='company_id']"/>
-              <field name='business_unit_id' domain="[('id', 'in', company_id.business_unit_ids)]" options="{'no_create':true,'no_open':true}" string="Succursale"/>
+              <field name='business_unit_id' domain="[('id', 'in', business_unit_ids)]" options="{'no_create':true,'no_open':true}" string="Succursale"/>
               <xpath position="move" expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sales_person']/field[@name='user_id']"/>
             </xpath>
 
