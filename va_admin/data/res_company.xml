@@ -1,34 +1,26 @@
 <odoo>
-  <data noupdate="1">
+  <data noupdate="0">
 
     <record model="res.company" id="base.main_company">
       <field name="name">VA-GROUP</field>
-      <field name="fiscalyear_last_day">31</field>
-      <field name="fiscalyear_last_month">12</field>
     </record>
 
     <record model="res.company" id="solution_company">
       <field name="name">VA-SOLUTIONS</field>
-      <field name="fiscalyear_last_day">31</field>
-      <field name="fiscalyear_last_month">12</field>
+      <field name="fiscalyear_last_day" eval="31"/>
+      <field name="fiscalyear_last_month" eval="12"/>
     </record>
 
     <record model="res.company" id="architecture_company">
       <field name="name">VA-ARCHITECTURE</field>
-      <field name="fiscalyear_last_day">31</field>
-      <field name="fiscalyear_last_month">12</field>
     </record>
 
     <record model="res.company" id="equipment_company">
       <field name="name">VA-EQUIPMENT</field>
-      <field name="fiscalyear_last_day">31</field>
-      <field name="fiscalyear_last_month">12</field>
     </record>
 
     <record model="res.company" id="safety_company">
       <field name="name">VA-SAFETY</field>
-      <field name="fiscalyear_last_day">31</field>
-      <field name="fiscalyear_last_month">12</field>
     </record>
     
   </data>
