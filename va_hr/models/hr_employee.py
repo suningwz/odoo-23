@@ -18,4 +18,8 @@ class Employee(models.Model):
     @api.depends('address_id.firstname','address_id.lastname')
     def _compute_short_name(self):
         for emp in self:
-            emp.short_name = (emp.address_id.firstname[:1] + emp.address_id.lastname[:2]).upper() if emp.address_id else False
+            _logger.info(emp.name)
+            if emp.address_id and emp.address_id.firstname and emp.address_id.lastname:
+                emp.short_name = (emp.address_id.firstname[:1] + emp.address_id.lastname[:2]).upper()
+            else:
+                emp.short_name = False
