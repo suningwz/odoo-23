@@ -2,6 +2,10 @@
   <data noupdate="1">
 
     <record model="res.company" id="base.main_company">
+      <field name="name">VA-GROUP</field>
+    </record>
+
+    <record model="res.company" id="solution_company">
       <field name="name">VA-SOLUTIONS</field>
     </record>
 
