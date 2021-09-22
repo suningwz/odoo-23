@@ -15,11 +15,10 @@ class Employee(models.Model):
         store = True,
     )
 
-    @api.depends('address_id.firstname','address_id.lastname')
+    @api.depends('address_home_id.firstname','address_home_id.lastname')
     def _compute_short_name(self):
         for emp in self:
-            _logger.info(emp.name)
-            if emp.address_id and emp.address_id.firstname and emp.address_id.lastname:
-                emp.short_name = (emp.address_id.firstname[:1] + emp.address_id.lastname[:2]).upper()
+            if emp.address_home_id and emp.address_home_id.firstname and emp.address_home_id.lastname:
+                emp.short_name = (emp.address_home_id.firstname[:1] + emp.address_home_id.lastname[:2]).upper()
             else:
                 emp.short_name = False
