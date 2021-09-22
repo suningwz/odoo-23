@@ -18,6 +18,10 @@ class SaleOrder(models.Model):
     your_contact_id = fields.Many2one(
         comodel_name='res.partner',
     )
+    # we create a dedicated contact as sales referee  
+    referee_id = fields.Many2one(
+        comodel_name='res.partner',
+    )
     #we create the business unit in order to cope with the need of custom header on layouts
     business_unit_id = fields.Many2one(
         comodel_name='res.partner',
@@ -36,6 +40,7 @@ class SaleOrder(models.Model):
     @api.onchange('partner_id')
     def _onchange_client(self):
         self.your_contact_id = False
+        self.referee_id = self.partner_id.referee_id if self.partner_id.referee_id else False
     
 
     @api.model

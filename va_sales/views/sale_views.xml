@@ -14,6 +14,7 @@
             <xpath position="after" expr="//field[@name='payment_term_id']">
               <xpath position="move" expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sales_person']/field[@name='client_order_ref']"/>
               <field name='your_contact_id' domain="[('parent_id', '=', partner_id)]" options="{'no_create':true,'no_open':true}"/>
+              <field name='referee_id' options="{'no_create':true,'no_open':true}"/>
             </xpath>
             
             <xpath position="before" expr="//field[@name='validity_date']">
@@ -48,6 +49,19 @@
             
             <xpath expr="//field[@name='website']" position="after">
                 <field name='business_unit_ids' widget="many2many_tags"/>
+            </xpath> 
+            
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_partner_form_va">
+        <field name="name">	res.partner.form.va</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name='referee_id' options="{'no_create':true,'no_open':true}"/>
             </xpath> 
             
         </field>
