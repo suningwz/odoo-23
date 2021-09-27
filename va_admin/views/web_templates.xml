@@ -2,19 +2,19 @@
 
 <odoo>
    <data>
-        <!-- Footer templates -->
+        
         <template id="footer_va" inherit_id="website.layout" name="Default" active="True">
             <xpath expr="//div[@id='footer']" position="replace">
                 
             </xpath>
         </template>
+
+        <template id="option_header_brand_logo" inherit_id="website.placeholder_header_brand" name="Header Brand Logo" active="True">
+            <xpath expr="//*[@id='o_fake_navbar_brand']" position="replace">
+                <a href="https://vertical-access.ch/" t-attf-class="navbar-brand logo #{_link_class}">
+                    <span t-field="website.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % website.name" t-att-title="website.name"/>
+                </a>
+            </xpath>
+        </template>
    </data>
 </odoo>
-
-<template id="option_header_brand_logo" inherit_id="website.placeholder_header_brand" name="Header Brand Logo" active="True">
-    <xpath expr="//*[@id='o_fake_navbar_brand']" position="replace">
-        <a href="https://vertical-access.ch/" t-attf-class="navbar-brand logo #{_link_class}">
-            <span t-field="website.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % website.name" t-att-title="website.name"/>
-        </a>
-    </xpath>
-</template>
