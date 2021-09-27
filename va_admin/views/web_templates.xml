@@ -2,6 +2,18 @@
 
 <odoo>
    <data>
+        <record model="ir.ui.view" id="view_website_form_va">
+            <field name="name">website.form</field>
+            <field name="model">website</field>
+            <field name="inherit_id" ref="website.view_website_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='domain']" position="after">
+                    <field name='external_link' widget="url"/>
+                </xpath> 
+                
+            </field>
+        </record>
         
         <template id="footer_va" inherit_id="website.layout" name="Default" active="True">
             <xpath expr="//div[@id='footer']" position="replace">
@@ -11,7 +23,7 @@
 
         <template id="option_header_brand_logo" inherit_id="website.placeholder_header_brand" name="Header Brand Logo" active="True">
             <xpath expr="//*[@id='o_fake_navbar_brand']" position="replace">
-                <a href="https://vertical-access.ch/" t-attf-class="navbar-brand logo #{_link_class}">
+                <a href="website.external_link" t-attf-class="navbar-brand logo #{_link_class}">
                     <span t-field="website.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % website.name" t-att-title="website.name"/>
                 </a>
             </xpath>
