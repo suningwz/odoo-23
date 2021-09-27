@@ -10,7 +10,7 @@ class Website(models.AbstractModel):
 
     external_link = fields.Char()
 
-    def _get_external_link(self):
+    def get_external_link(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_url',
