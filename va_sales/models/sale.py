@@ -32,7 +32,6 @@ class SaleOrder(models.Model):
         related='company_id.business_unit_ids',
     )
 
-
     @api.onchange('company_id')
     def _onchange_bu(self):
         self.business_unit_id = False
@@ -41,6 +40,16 @@ class SaleOrder(models.Model):
     def _onchange_client(self):
         self.your_contact_id = False
         self.referee_id = self.partner_id.referee_id if self.partner_id.referee_id else False
+    
+    def _prepare_invoice(self):
+        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals.update({
+            'referee_id': self.referee_id.id,
+            'your_contact_id': self.your_contact_id.id,
+            'business_unit_id': self.business_unit_id.id,
+            })
+
+        return invoice_vals
     
 
     @api.model
@@ -58,6 +67,8 @@ class SaleOrder(models.Model):
             vals['name'] = "{} | {}".format(vals['seq_ref'],vals['name'])
         result = super(SaleOrder, self).create(vals)
         return result
+
+    
 
 class SaleOrderLine(models.Model):
 
