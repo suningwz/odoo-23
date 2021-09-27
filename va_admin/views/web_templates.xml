@@ -1,0 +1,12 @@
+
+
+<odoo>
+   <data>
+        <!-- Footer templates -->
+        <template id="footer_va" inherit_id="website.layout" name="Default" active="True">
+            <xpath expr="//div[@id='footer']" position="replace">
+                
+            </xpath>
+        </template>
+   </data>
+</odoo>
