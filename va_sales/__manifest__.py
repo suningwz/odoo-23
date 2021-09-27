@@ -16,19 +16,21 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Vertical-Access',
-    'version': '14.0.11',
+    'version': '14.0.12',
 
     # any module necessary for this one to work correctly
     'depends': [
         'base',
         'sale',
         'sale_management',
+        'account',
         ],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'views/sale_views.xml',
+        'views/account_views.xml',
         
     ],
    
