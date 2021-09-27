@@ -10,14 +10,11 @@ class Website(models.AbstractModel):
 
     external_link = fields.Char()
 
-    """def _get_external_link(self):
+    def _get_external_link(self):
         self.ensure_one()
-        url_params = {
-            'id': self.id,
-            'view_type': 'form',
-            'model': 'your_model',
-            'menu_id': self.env.ref('module_name.menu_record_id').id,
-            'action': self.env.ref('module_name.action_record_id').id,
+        return {
+            'type': 'ir.actions.act_url',
+            'url': self.external_link,
+            'target': 'self',
+            'res_id': self.id,
         }
-        params = '/web?#%s' % url_encode(url_params)
-        return base_url + params"""

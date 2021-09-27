@@ -23,7 +23,7 @@
 
         <template id="option_header_brand_logo" inherit_id="website.placeholder_header_brand" name="Header Brand Logo" active="True">
             <xpath expr="//*[@id='o_fake_navbar_brand']" position="replace">
-                <a href="website.external_link" t-attf-class="navbar-brand logo #{_link_class}">
+                <a href="${website.get_external_link()}" t-attf-class="navbar-brand logo #{_link_class}">
                     <span t-field="website.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % website.name" t-att-title="website.name"/>
                 </a>
             </xpath>
