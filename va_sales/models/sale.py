@@ -68,8 +68,20 @@ class SaleOrder(models.Model):
         result = super(SaleOrder, self).create(vals)
         return result
 
-    
+class SaleAdvancePaymentInv(models.TransientModel):
+    _inherit = "sale.advance.payment.inv"
 
+    def _prepare_invoice_values(self, order, name, amount, so_line):
+        invoice_vals = super(SaleAdvancePaymentInv, self)._prepare_invoice_values(order, name, amount, so_line)
+        invoice_vals.update({
+            'referee_id': order.referee_id.id,
+            'your_contact_id': order.your_contact_id.id,
+            'business_unit_id': order.business_unit_id.id,
+            })
+
+        return invoice_vals
+
+    
 class SaleOrderLine(models.Model):
 
     _inherit = "sale.order.line"
