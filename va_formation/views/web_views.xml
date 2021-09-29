@@ -1,7 +1,7 @@
 <odoo>
   <data>
 
-    <template id="event_details" name="Event Header">
+    <template id="website_event.event_details" name="Event Header">
         <t t-call="website_event.layout">
             <div name="event" itemscope="itemscope" itemtype="http://schema.org/Event">
                 <t t-call="website.record_cover">
