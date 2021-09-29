@@ -11,10 +11,10 @@
                 <section class="bg-200 mt-n5">
                     <div class="container overflow-hidden">
                         <div class="row no-gutters mt-n4 mb-3">
-                            <!-- Description -->
+                            <!-- Description 
                             <div id="o_wevent_event_main_col" class="col-lg-8 bg-white px-3 pt-5 pb-0 shadow-sm">
                                 <span t-field="event.description" itemprop="description"/>
-                            </div>
+                            </div>-->
                             
                             <!-- Date & Time -->
                             <div class="o_wevent_sidebar_block">
