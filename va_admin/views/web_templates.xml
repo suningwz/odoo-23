@@ -14,6 +14,11 @@
                 
             </field>
         </record>
+
+        <template id="template_header_default_oe_structure_header_default_1" inherit_id="website.template_header_default" name="Template Header Default (oe_structure_header_default_1)">
+            <xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_header_default_1']" position="replace">
+            </xpath>
+        </template>
         
         <template id="footer_va" inherit_id="website.layout" name="Default" active="True">
             <xpath expr="//div[@id='footer']" position="replace">
