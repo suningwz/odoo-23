@@ -21,6 +21,20 @@
             </xpath>
         </template>
 
+        <template id="layout_va" name="Main layout" inherit_id="portal.frontend_layout">
+
+            <xpath expr="//footer//span[hasclass('o_footer_copyright_name')]" position="replace">
+                <span class="o_footer_copyright_name mr-2">Copyright &amp;copy; Vertical Access Grp.</span>
+            </xpath>
+
+        </template>
+
+        <template id="brand_promotion_va" inherit_id="website.brand_promotion">
+            <xpath expr="//t[@t-call='web.brand_promotion_message']" position="replace">
+            </xpath>
+        </template>
+
+
         <!--<template id="option_header_brand_logo" inherit_id="website.placeholder_header_brand" name="Header Brand Logo" active="True">
             <xpath expr="//*[@id='o_fake_navbar_brand']" position="replace">
                 <a href="${website.get_external_link()}" t-attf-class="navbar-brand logo #{_link_class}">
