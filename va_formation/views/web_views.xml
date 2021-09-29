@@ -1,6 +1,31 @@
 <odoo>
   <data>
 
+    <template id="event_details" name="Event Header">
+        <t t-call="website_event.layout">
+            <div name="event" itemscope="itemscope" itemtype="http://schema.org/Event">
+                <t t-call="website.record_cover">
+                    <t t-set="_record" t-value="event"/>
+                    <t t-set="use_filters" t-value="False"/>
+                    <t t-set="use_size" t-value="True"/>
+                    <t t-set="use_text_align" t-value="True"/>
+
+                    <div class="container d-flex flex-column flex-grow-1 justify-content-around">
+                        <div class="o_wevent_event_title">
+                            <span t-if="event.is_participating" class="badge badge-success o_wevent_badge"><i class="fa fa-check mr-2"/>Registered</span>
+                            <h1 t-field="event.name" class="o_wevent_event_name" itemprop="name" placeholder="Event Title"/>
+                            <h2 t-field="event.subtitle" class="o_wevent_event_subtitle" placeholder="Event Subtitle"/>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <t t-call="website_event.registration_template"/>
+                    </div>
+                </t>
+                <t t-raw="0"/>
+            </div>
+        </t>
+    </template>
+
     <record model="ir.ui.view" id="website_event.event_description_full">
         <field name="name">Event Description</field>
         <!--<field name="inherit_id" ref="website_event.event_description_full"/>-->
