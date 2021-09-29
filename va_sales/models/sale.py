@@ -30,6 +30,7 @@ class SaleOrder(models.Model):
 
     business_unit_ids = fields.Many2many(
         related='company_id.business_unit_ids',
+        string='Business Units',
     )
 
     @api.onchange('company_id')
