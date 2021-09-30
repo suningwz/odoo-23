@@ -26,10 +26,36 @@ class EventEvent(models.Model):
         store = True,
     )
 
+    autonaming = fields.Boolean(
+        help="If checked, related events will be automatically named based on template info and time/location."
+    )
+
     @api.depends('event_type_id','event_type_id.parent_id')
     def _compute_reporting_event_type(self):
         for event in self:
             if not event.event_type_id:
                 event.reporting_event_type_id = False
+                event.autonaming = False
             else:
                 event.reporting_event_type_id = event.event_type_id.parent_id if event.event_type_id.parent_id else event.event_type_id
+                event.autonaming = event.reporting_event_type_id.autonaming
+            event._autonaming()
+
+    def _autonaming(self):
+        for event in self.filtered(lambda e: e.autonaming):
+            if event.reporting_event_type_id:
+                event.name = "{} | {}".format(event.reporting_event_type_id.short_name, event.date_begin.date())
+                event.subtitle = event.reporting_event_type_id.name
+                event.description = event.reporting_event_type_id.description
+            else:
+                event.name = "Not enough autonaming info."
+                event.subtitle = False
+                event.description = False
+    
+    @api.onchange('date_begin')
+    def _onchange_date_begin(self):
+        self._autonaming()
+    
+    @api.onchange('address_id')
+    def _onchange_address_id(self):
+        self._autonaming()

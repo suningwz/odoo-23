@@ -1,0 +1,52 @@
+
+
+<odoo>
+   <data>
+        <record model="ir.ui.view" id="view_website_form_va">
+            <field name="name">website.form</field>
+            <field name="model">website</field>
+            <field name="inherit_id" ref="website.view_website_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='domain']" position="after">
+                    <field name='external_link' widget="url"/>
+                </xpath> 
+                
+            </field>
+        </record>
+
+        <template id="template_header_default_oe_structure_header_default_1" inherit_id="website.template_header_default" name="Template Header Default (oe_structure_header_default_1)">
+            <xpath expr="//*[hasclass('oe_structure')][@id='oe_structure_header_default_1']" position="replace">
+            </xpath>
+        </template>
+        
+        <template id="footer_va" inherit_id="website.layout" name="Default" active="True">
+            <xpath expr="//div[@id='footer']" position="replace">
+                
+            </xpath>
+        </template>
+
+        <template id="layout_va" name="Main layout" inherit_id="portal.frontend_layout">
+
+            <xpath expr="//footer//span[hasclass('o_footer_copyright_name')]" position="replace">
+                <span class="o_footer_copyright_name mr-2">Copyright &amp;copy; Vertical Access Grp.</span>
+            </xpath>
+
+        </template>
+
+        <template id="brand_promotion_va" inherit_id="website.brand_promotion">
+            <xpath expr="//t[@t-call='web.brand_promotion_message']" position="replace">
+            </xpath>
+        </template>
+
+
+        <!--<template id="option_header_brand_logo" inherit_id="website.placeholder_header_brand" name="Header Brand Logo" active="True">
+            <xpath expr="//*[@id='o_fake_navbar_brand']" position="replace">
+                <a href="${website.get_external_link()}" t-attf-class="navbar-brand logo #{_link_class}">
+                    <span t-field="website.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % website.name" t-att-title="website.name"/>
+                </a>
+            </xpath>
+        </template>-->
+        
+   </data>
+</odoo>

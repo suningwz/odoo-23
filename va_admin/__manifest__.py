@@ -16,17 +16,21 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Vertical-Access',
-    'version': '14.0.2',
+    'version': '14.0.17',
 
     # any module necessary for this one to work correctly
     'depends': [
         'base',
         'mail',
+        'account',
+        'timesheet_grid',
         ],
 
     # always loaded
     'data': [
         'data/res_company.xml',
+        'views/colors.xml',
+        'views/web_templates.xml',
     ],
 
 }

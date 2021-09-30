@@ -10,7 +10,7 @@
             <!-- We propose company filter -->
             <filter name='type_company' position="after">
               <separator/>
-              <filter string='VA-SOLUTION' name='va_solution' domain="[('company_id','=', %(base.main_company)d)]"/>
+              <filter string='VA-SOLUTION' name='va_solution' domain="[('company_id','=', %(va_admin.solution_company)d)]"/>
               <filter string='VA-ARCHITECTURE' name='va_architecture' domain="[('company_id','=', %(va_admin.architecture_company)d)]"/>
               <filter string='VA-EQUIPMENT' name='va_equipment' domain="[('company_id','=', %(va_admin.equipment_company)d)]"/>
               <filter string='VA-SAFETY' name='va_safety' domain="[('company_id','=', %(va_admin.safety_company)d)]"/>

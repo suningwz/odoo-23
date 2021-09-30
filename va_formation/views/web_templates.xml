@@ -1,0 +1,15 @@
+
+
+<odoo>
+   <data>
+       <template id="layout" name="Event" inherit_id="website_event.layout" >
+           <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="o_wevent_event js_event">
+                <t t-raw="0"/>
+                <t t-set="editor_sub_message">Following content will appear on all events.</t>
+                <div class="oe_structure oe_empty" id="oe_structure_website_event_layout_1" t-att-data-editor-sub-message="editor_sub_message"/>
+            </div>
+           </xpath>
+   </template>
+   </data>
+</odoo>

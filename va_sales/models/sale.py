@@ -7,10 +7,51 @@ class SaleOrder(models.Model):
 
     _inherit = "sale.order"
 
+    #we do custom numbering for our sales orders
     seq_ref = fields.Char(
         readonly=True,
         string= "Reference",
     )
+
+    #we create more employee/contact related fields in the sale order to cope with specific needs
+    # we create a dedicated contact on the client side, which is different of all existing addresses
+    your_contact_id = fields.Many2one(
+        comodel_name='res.partner',
+    )
+    # we create a dedicated contact as sales referee  
+    referee_id = fields.Many2one(
+        comodel_name='res.partner',
+    )
+    #we create the business unit in order to cope with the need of custom header on layouts
+    business_unit_id = fields.Many2one(
+        comodel_name='res.partner',
+        domain = [('is_company','=',True)],
+    )
+
+    business_unit_ids = fields.Many2many(
+        related='company_id.business_unit_ids',
+        string='Business Units',
+    )
+
+    @api.onchange('company_id')
+    def _onchange_bu(self):
+        self.business_unit_id = False
+
+    @api.onchange('partner_id')
+    def _onchange_client(self):
+        self.your_contact_id = False
+        self.referee_id = self.partner_id.referee_id if self.partner_id.referee_id else False
+    
+    def _prepare_invoice(self):
+        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals.update({
+            'referee_id': self.referee_id.id,
+            'your_contact_id': self.your_contact_id.id,
+            'business_unit_id': self.business_unit_id.id,
+            })
+
+        return invoice_vals
+    
 
     @api.model
     def create(self, vals):
@@ -28,6 +69,20 @@ class SaleOrder(models.Model):
         result = super(SaleOrder, self).create(vals)
         return result
 
+class SaleAdvancePaymentInv(models.TransientModel):
+    _inherit = "sale.advance.payment.inv"
+
+    def _prepare_invoice_values(self, order, name, amount, so_line):
+        invoice_vals = super(SaleAdvancePaymentInv, self)._prepare_invoice_values(order, name, amount, so_line)
+        invoice_vals.update({
+            'referee_id': order.referee_id.id,
+            'your_contact_id': order.your_contact_id.id,
+            'business_unit_id': order.business_unit_id.id,
+            })
+
+        return invoice_vals
+
+    
 class SaleOrderLine(models.Model):
 
     _inherit = "sale.order.line"

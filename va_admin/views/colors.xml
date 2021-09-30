@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<odoo>
+	<template id="_assets_primary_variables" inherit_id="web._assets_primary_variables">
+        <xpath expr="link[1]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/va_admin/static/src/scss/va-variables.scss"/>
+        </xpath>
+    </template>
+
+</odoo>
