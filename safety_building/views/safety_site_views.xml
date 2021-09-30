@@ -2,8 +2,8 @@
   <data>
 
     <record model="ir.actions.act_window" id="action_safety_site">
-      <field name="name">security_audit window</field>
-      <field name="res_model">security_audit.security_audit</field>
+      <field name="name">action_safety_site</field>
+      <field name="res_model">safety_site</field>
       <field name="view_mode">tree,form</field>
     </record>
 
