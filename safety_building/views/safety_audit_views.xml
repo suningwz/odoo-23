@@ -1,0 +1,91 @@
+<odoo>
+  <data>
+
+    <record model="ir.actions.act_window" id="action_safety_audit">
+      <field name="name">Audit</field>
+      <field name="res_model">safety.audit</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="menu_safety_audit"
+            name="Audit"
+            parent="menu_safety_root"
+            sequence="3"
+    />
+
+    <record model="ir.ui.view" id="safety_audit_list">
+      <field name="name">safety_audit_list</field>
+      <field name="model">safety.audit</field>
+      <field name="arch" type="xml">
+        <tree >
+          <field name="name"/>
+          <field name="site_id" options="{'no_open':True,'no_create':True}"/>
+          <field name="date_start"/>
+          <field name="date_end"/>
+          <field name="status"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="safety_audit_form">
+        <field name="name">safety_audit_form</field>
+        <field name="model">safety.audit</field>
+        <field name="arch" type="xml">
+          <form string="Safety Audit">
+            <header>
+                
+            </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                </div>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                </div>
+                <group name="header">
+                    
+                    <group name="context_left">
+                        <field name="site_id" options="{'no_open':True,'no_create':True}"/>
+                        <field name="description"/>
+                        <field name="auditor_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="parent_id" options="{'no_open':True,'no_create':True}"/>
+                            </tree>
+                        </field>
+                        
+                    </group>
+                    <group name="context_right">
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="status"/>
+                    </group>
+                </group>   
+                <notebook>
+              
+                    <page string="Audit Elements" name="audit_elements">
+                        <group string="Audit Elements">
+                            <field name="element_ids" string="">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
+          </form>
+        </field>
+    </record>
+
+  </data>
+</odoo>

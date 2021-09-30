@@ -2,7 +2,7 @@
   <data>
 
     <record model="ir.actions.act_window" id="action_safety_site">
-      <field name="name">action_safety_site</field>
+      <field name="name">Safety Site</field>
       <field name="res_model">safety.site</field>
       <field name="view_mode">tree,form</field>
     </record>
@@ -10,7 +10,7 @@
     <menuitem
             id="menu_safety_root"
             name="Safety"
-            web_icon="fa fa-exclamation-triangle,#154734,#D9D9D6"
+            web_icon="fa fa-exclamation-triangle,#43B02A,#D9D9D6"
             active="True"
             groups="group_safety_user"
     />
@@ -53,24 +53,47 @@
                         </h1>
                     </div>
                     <group name="site_header">
-                        <field name="description"/>
+                        
                         <group name="partner_details">
                             <field name="partner_id" options="{'no_open':True,'no_create':True}"/>
                             <field name="external_resp_id" options="{'no_open':True,'no_create':True}"/>
                         </group>
                         <group name="company_details">
+                            <field name="description"/>
                             <field name="internal_resp_id" options="{'no_open':True,'no_create':True}"/>
                         </group>
                     </group>   
                     <notebook>
                         <page string="Site Areas" name="site_area">
                             <group string="Site Areas">
-                                <field name="site_area_ids" string="" readonly='1'>
-                                    <tree>
+                                <field name="site_area_ids" string="">
+                                    <tree editable="bottom">
                                         <field name="name"/>
                                         <field name="description"/>
                                         <field name="external_resp_id"/>
                                         <field name="internal_resp_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Suppliers" name="site_suppliers">
+                            <group string="Suppliers">
+                                <field name="supplier_ids" string="">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="zip"/>
+                                        <field name="city"/>
+                                        <field name="industry_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Default Audit Elements" name="site_audit_elements">
+                            <group string="Default Audit Elements">
+                                <field name="default_element_ids" string="">
+                                    <tree editable='bottom'>
+                                        <field name="name"/>
+                                        <field name="description"/>
                                     </tree>
                                 </field>
                             </group>

@@ -1,13 +1,11 @@
 #-*- coding: utf-8 -*-
 
 from odoo import models, fields, api,_
-
 class SafetySiteArea(models.Model):
     _name = 'safety.site.area'
     _description = 'Safety Site Area'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    active = fields.Boolean()
+    active = fields.Boolean(default=True)
     name = fields.Char()
     description = fields.Text()
     site_id = fields.Many2one(
@@ -30,7 +28,7 @@ class SafetySite(models.Model):
     description = fields.Text()
 
     partner_id = fields.Many2one(
-        compdel_name = 'res.partner',
+        comodel_name = 'res.partner',
         domain = [('is_company','=',True)],
         required = True,
         help = _('The company owning the audited building site.')
@@ -49,6 +47,18 @@ class SafetySite(models.Model):
         comodel_name = 'safety.site.area',
         inverse_name = 'site_id',
     )
+
+    supplier_ids = fields.Many2many(
+        comodel_name = 'res.partner',
+        domain = [('is_company','=',True)],
+        help = _('All suppliers working on the building site.')
+    )
+
+    default_element_ids = fields.Many2many(
+        comodel_name = 'safety.audit.element'
+    )
+
+
 
 
 
