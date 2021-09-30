@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_safety_site_manager,access_safety_site_manager,model_safety_site,group_safety_manager,1,1,1,1
+access_safety_site_user,access_safety_site_user,model_safety_site,group_safety_user,1,0,0,0
+access_safety_site_area_manager,access_safety_site_area_manager,model_safety_site_area,group_safety_manager,1,1,1,1
+access_safety_site_area_user,access_safety_site_area_user,model_safety_site_area,group_safety_user,1,0,0,0
