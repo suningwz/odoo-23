@@ -19,6 +19,7 @@
             name="Audit Element"
             parent="menu_safety_config"
             sequence="3"
+            action="action_safety_element"
     />
 
     <record model="ir.ui.view" id="safety_element_list">

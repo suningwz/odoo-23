@@ -12,6 +12,7 @@
             name="Audit"
             parent="menu_safety_root"
             sequence="3"
+            action="action_safety_audit"
     />
 
     <record model="ir.ui.view" id="safety_audit_list">

@@ -4,7 +4,6 @@ from odoo import models, fields, api,_
 class SafetySiteArea(models.Model):
     _name = 'safety.site.area'
     _description = 'Safety Site Area'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     active = fields.Boolean(default=True)
     name = fields.Char()
