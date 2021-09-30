@@ -61,7 +61,7 @@
                         <group name="company_details">
                             <field name="internal_resp_id" options="{'no_open':True,'no_create':True}"/>
                         </group>
-                        
+                    </group>   
                     <notebook>
                         <page string="Site Areas" name="site_area">
                             <group string="Site Areas">
